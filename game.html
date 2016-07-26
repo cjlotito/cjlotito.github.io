@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="lib/MOD_crafty71.js"></script>
+	<script src="src/alt_game.js"></script>
+	<script src="src/alt_components.js"></script>
+	<script src="src/alt_scenes.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<style>
+    body, html { 
+		text-align: center;
+		font-family:"Times New Roman",Times,serif; 
+		font-size:30px; 
+		background-color: palegreen; 
+		color: Black;
+	}
+	.red {
+		color: red;
+	}
+	.blue {
+		color: blue;
+	}
+	.green {
+		color: green;
+	}
+	.orange {
+		color: orange;
+	}
+	.yellow {
+		color: yellow;
+	}
+	.indigo {
+		color: indigo;
+	}
+	.violet {
+		color: violet;
+	}
+	.black {
+		color: black;
+	}
+	.white {
+		color: white;
+	}
+    #cr-stage {
+		border-top: 50px solid transparent;
+		margin:0px auto;
+	}
+	#buttonsL {
+		font-size:20px; 
+		position: absolute;
+		bottom: 8px;
+		right: 16px;
+		font-size: 18px;
+	}
+	#buttonsR {
+		font-size:20px; 
+		position: absolute;
+		bottom: 8px;
+		left: 16px;
+		font-size: 18px;
+	}
+	#direction {
+		-moz-user-select: -moz-none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+	}
+	#blank {
+		height: 20px;
+	}
+	#UP {
+		width: 0;
+		height: 0;
+		border-left: 25px solid transparent;
+		border-right: 25px solid transparent;
+		border-bottom: 50px solid red;
+	}
+	#DOWN {
+		width: 0;
+		height: 0;
+		border-left: 25px solid transparent;
+		border-right: 25px solid transparent;
+		border-top: 50px solid red;
+	}
+	#RIGHT {
+		width: 0;
+		height: 0;
+		border-top: 25px solid transparent;
+		border-left: 50px solid red;
+		border-bottom: 25px solid transparent;
+	}
+	#LEFT {
+		width: 0;
+		height: 0;
+		border-top: 25px solid transparent;
+		border-right: 50px solid red;
+		border-bottom: 25px solid transparent;
+	}
+	#container {
+		background-color: cadetblue; 
+		height: 650px;
+		position: relative;
+		width: 860px;
+		border: 2px solid white;
+		outline-color: lightblue;
+		margin:0px auto;
+		outline-style: outset;
+	}
+	
+	</style>
+	<title>Curtis' Game</title>
+</head>
+<body onload="Game.start()" oncontextmenu="return false;">
+	<div><h3>Curtis' Game!</h3></div>
+	
+	<div id="container">
+	<div style="background-color:mediumpurple">
+			<table style="width:100%">
+				<tr>
+						<td>Lives:</td>
+					<td id="Lives">3</td>	
+						<td>Keys:{</td>
+						<td class="red">R:</td>
+					<td id="0" class="red">0</td>	
+						<td class="blue">B:</td>
+					<td id="1" class="blue">0</td>	
+						<td class="green">G:</td>
+					<td id="2" class="green">0</td>	
+						<td class="orange" >O:</td>
+					<td id="3" class="orange">0</td>	
+						<td class="black">BL:</td>
+					<td id="4" class="black">0</td>	
+						<td class="indigo">I:</td>
+					<td id="5" class="indigo">0</td>	
+						<td class="violet">V:</td>
+					<td id="6" class="violet">0</td>	
+						<td class="white">W:</td>
+					<td id="7" class="white">0</td>	
+						<td class="yellow">Y:</td>
+					<td id="8" class="yellow">0</td>
+						<td>}</td>
+						<td>Score:</td>
+					<td id="score">000</td>
+				</tr>
+			</table>
+		</div>
+	<div id="cr-stage"></div>
+
+	
+	</div>
+	<!-- -->
+	
+	<div align="center" ><label><input id="debugMode" type="checkbox" onchange="Game.toggleVisibility('debug')">Check to allow debug</label></div>
+	<!---->
+	<p></p>
+	<div id="debug" align="center" style="display: none">
+		<textarea id="UserCode" rows="4" cols="150"></textarea>
+		<p></p>
+		<input id="clickMe" type="button" value="Load Array" onclick="Game.setBackground(document.getElementById('UserCode').value);" />
+	</div>
+</body>
+</html>
