@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en"> 
+	<head> 
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<style>
+			table, th, td {
+				border: 1px solid black;
+				border-collapse: collapse;
+				text-align: center;
+			}
+		</style>
+		<title>REALLLLY BASIC BLACKJACK</title> 
+	</head> 
+	<body onload="deal()"> 
+		<p id = "secret" hidden>This paragraph should be hidden.</p>
+		<dialog id="myDialog">
+			Set the value of this Ace.
+			<menu>
+				<button onclick="closeDialog(1)">1</button>
+				<button onclick="closeDialog(11)">11</button>
+			</menu>	
+		</dialog>
+		<p>Array[2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A]</p>
+		<p id="card" style ="text-align:center" >This is my super basic version of blackjack</p>
+		<p id="demo"></p>
+		<table style="width:100%">
+			<tr>
+				<th>Your Cards</th>
+				<th>Their Cards</th> 
+			</tr>
+			<tr>
+				<td id = "yourDraw">-</td>
+				<td id = "theirDraw">-</td>
+			</tr>
+			<tr>
+				<td id = "yours" >0</td>
+				<td id = "theirs">0</td> 
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button id = "hit" onclick="hit(0, 'your')">Hit</button>
+					<button id = "stay" onclick="stay()">Stay</button>
+					<button id = "doubleDown" onclick="doubleDown()">Double Down</button>
+					<button id = "split" onclick="split()">Split</button>
+					<button id = "restart" onclick="restart()">Restart</button>
+				</td>
+			</tr>
+			</table>
+		
+
+		<script>
+			var cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+			var drawSize = cards.length;
+			var dlog = document.getElementById("myDialog");  
+			
+			function deal() {
+				hit(0, "your");
+				hit(0, "your");
+			}
+			function doubleDown() {
+				hit(0, "your");
+				y = document.getElementById("yours").innerHTML;
+				if (parseInt(y) <= 21) { 
+					stay();
+				}
+			}
+			function openDialog() {
+				document.getElementById("hit").disabled = true;
+				document.getElementById("stay").disabled = true;
+				dlog.show();
+			}
+			function closeDialog(t) {
+				document.getElementById("secret").innerHTML = t; 
+				console.log("Secret is currently : " + document.getElementById("secret").innerHTML);
+				document.getElementById("hit").disabled = false;
+				document.getElementById("stay").disabled = false;
+				x = parseInt(document.getElementById("secret").innerHTML);
+				playCard(x);
+				dlog.close(); 
+			}
+			function playCard(x) {
+					y = document.getElementById("yours").innerHTML;
+					z = parseInt(y) + parseInt(x);
+					document.getElementById("yours").innerHTML = z;
+					if (z > 21) {
+						window.alert("You Lose");
+						document.getElementById("hit").disabled = true;
+						document.getElementById("stay").disabled = true;
+					}
+					t = 0,u=null,w = null,x =0,y=0,z=0;
+			}
+			function playTheirCard(x) {
+					y = document.getElementById("theirs").innerHTML;
+					z = parseInt(y) + parseInt(x);
+					document.getElementById("theirs").innerHTML = z;
+					//if (z > 21) {
+					//	window.alert("You Win");
+					//	document.getElementById("hit").disabled = true;
+					//	document.getElementById("stay").disabled = true;
+					//}
+					if (z <= 20 && z >= 18) {
+						u = Math.floor((Math.random() * 100) + 1);
+						if (u < 25) {
+							console.log("Decision Random number is : " + u);
+							stay();
+						} else {
+							console.log("Decision Random number is : " + u);
+							call();
+						}
+					} else if (z < 18) {
+						stay();
+					} else {
+						call();
+					}
+			}
+			function call() {
+				document.getElementById("hit").disabled = true;
+				document.getElementById("stay").disabled = true;
+				console.log("Call");
+				t = parseInt(document.getElementById("theirs").innerHTML);
+				u = parseInt(document.getElementById("yours").innerHTML);
+				z = t - u;
+				console.log(z);
+				if (z < 0) {
+					window.alert("You Win!");
+				} else if (z == 0) {
+					window.alert("TIE!");
+				} else if (z > 0) {
+					if (t > 21) window.alert("You Win!");
+					else window.alert("You Lose!");
+				}
+				
+			}
+			function hit(x, whose) {
+				x = Math.floor((Math.random() * drawSize));
+				x = Math.round(x);
+				//if (x != null) {} else {
+				//	x = Math.floor((Math.random() * drawSize));
+				//	x = Math.round(x);
+				//}
+					console.log("Random number is : " + x);
+					x = cards[x];
+					cards.splice(x, 1);
+					drawSize = cards.length;
+					console.log("Array chose : " + x);
+					console.log("Cards left: " + cards.length);
+					w = document.getElementById(whose + "Draw").innerHTML
+					console.log("W = " + w);
+					document.getElementById(whose + "Draw").innerHTML = w + " " + x;
+					if (x == 'J'  || x == 'Q' || x == 'K') {
+						x = 10;
+						playCard(x);
+					} else if(x == 'A') {
+						openDialog();
+					} else {
+						playCard(x);
+					}
+
+			}
+			function stay(x) {
+				console.log("Started stay()");
+				document.getElementById("hit").disabled = true;
+				v = false;
+				y = document.getElementById("theirs").innerHTML;
+				console.log("Their total is = " + parseInt(y));
+				u = Math.floor((Math.random() * 100) + 1);
+				console.log("u = " + u);
+				if (parseInt(y) > 18) {
+					if (u > 95) {
+						console.log("Decision Random number is : " + u);
+						v = true;
+						console.log("V status : " + v);
+					} else v = false;
+				}	else {
+					v = true;
+				}
+				if (v == true) {
+					x = Math.floor((Math.random() * drawSize));
+					x = Math.round(x);
+					//if (x != null) {} else {
+					//	x = Math.floor((Math.random() * drawSize));
+					//	x = Math.round(x);
+					//}
+						console.log("Their random number is : " + x);
+						x = cards[x];
+						cards.splice(x, 1);
+						drawSize = cards.length;
+						console.log("Array chose : " + x);
+						console.log("Cards left: " + cards.length);
+						w = document.getElementById("theirDraw").innerHTML
+						document.getElementById("theirDraw").innerHTML = w + " " + x;
+						if (x == 'J'  || x == 'Q' || x == 'K') {
+							x = 10;
+							playTheirCard(x);
+						} else if(x == 'A') {
+							y = document.getElementById("theirs").innerHTML;
+							console.log("Their current score is : " + parseInt(y));
+							if (parseInt(y) > 10) {
+								x = 1;
+							} else if (parseInt(y) == 10) {
+								x = 11;
+							} else {
+								u = Math.floor((Math.random() * 100) + 1);
+								if (u > 50) {
+									console.log("Decision Random number is : " + u);
+									x = 11;
+									console.log("Ace is set to : " + x);
+								} else {
+									console.log("Decision Random number is : " + u);
+									x = 1;
+									console.log("Ace is set to : " + x);
+								}
+							}
+							playTheirCard(x);
+						} else {
+							playTheirCard(x);
+						}
+				} else call();
+			}
+			function restart(x) {
+				document.getElementById("yours").innerHTML = 0;
+				document.getElementById("theirs").innerHTML = 0;
+				document.getElementById("yourDraw").innerHTML = "-";
+				document.getElementById("theirDraw").innerHTML = "-";
+				t = 0,u=null,v= false,w = null,x =0,y=0,z=0;
+				document.getElementById("hit").disabled = false;
+				document.getElementById("stay").disabled = false;
+				closeDialog(0);
+				cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+				console.log(" t = " + t + " u = " + u + " v = " + v + " w = " + w + " x = " + x + " y = " + y + " z = " + z);
+				console.log("Deck contains : " + cards);
+			}
+		</script>			
+	</body> 
+</html>
