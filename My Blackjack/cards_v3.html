@@ -118,7 +118,7 @@
 				//console.log('Adding cell to row: ' + row);
 				var x = row.insertCell(3);
 				var z = row.insertCell(4);
-				var y = row.insertCell(6);
+				var y = row.insertCell(5);
 				z.id = idName + 'Draw2';
 				x.id = idName + 'Draw1';
 				y.id = idName + 'Score2';
@@ -128,8 +128,12 @@
 				playersSplits[idNum][0] = playersScore[idNum][0];
 				
 				//Set Cells to Scores
-				x.innerHTML = playersSplits[idNum][0];
-				y.innerHTML = playersSplits[idNum][0];
+				//split cell into Score and Hit Button
+				//player0WLS.innerHTML = '<table style="width:100%"><tr><td>' + playersSplits[idNum][0] + '</td></tr><tr><td><button onclick="multiHit(' + player0 + ', true, 0)">Hit</button></td></tr></table>'
+				theId = "'" + idName + "'";
+				x.innerHTML = '<table style="width:100%"><tr><td>' + playersSplits[idNum][0] + '</td></tr><tr><td><button onclick="multiHit(' + theId + ', true, 0)">Hit</button></td></tr></table>';
+				y.innerHTML = '<table style="width:100%"><tr><td>' + playersSplits[idNum][0] + '</td></tr><tr><td><button onclick="multiHit(' + theId + ', true, 1)">Hit</button></td></tr></table>';
+				//y.innerHTML = playersSplits[idNum][0];
 				z.innerHTML = playersSplits[idNum][0];
 				document.getElementById(idName + 'Score').innerHTML = playersScore[idNum][0];
 				
@@ -309,7 +313,7 @@
 				console.log('Thats ' + cards.length + ' cards left');
 			}
 			
-			function multiHit(id, press) {
+			function multiHit(id, press, which) {
 				//Shorten Player Name/Number
 				idName = id.substring(0, 7);
 				idNum = id.substring(6,7);
