@@ -134,7 +134,7 @@
 				document.getElementById(idName + 'Score').innerHTML = playersScore[idNum][0];
 				
 				//Reset Score
-				getScore(idNum);
+				getScore(idNum, playersScore);
 			}
 			
 			function playerSelect() {
@@ -164,11 +164,11 @@
 				closeDialog(98, false);
 			}
 			
-			function getScore(idNum) {
+			function getScore(idNum, scoreArr) {
 				//Obtain Player Score
 				hold = [];
-				for (p = 0; p < playersScore[idNum].length; p++) {
-					l = playersScore[idNum][p];
+				for (p = 0; p < scoreArr[idNum].length; p++) {
+					l = scoreArr[idNum][p];
 					hold.push(l);
 				}
 				y = hold.reduce((a,b) => a+b,0);
@@ -197,7 +197,7 @@
 					if (document.getElementById(idName + "Id").value == "human") openDialog(0, idName);
 					//If Robot Randomize Choice of Ace	
 					else {
-						y = getScore(idNum);
+						y = getScore(idNum, playersScore );
 						if (parseInt(y) > 10) x = 1;
 						else if (parseInt(y) == 10) x = 11;
 						else {
@@ -226,7 +226,7 @@
 				faceId(x, idName);
 				
 				//Update Score
-				z = getScore(idNum);
+				z = getScore(idNum, playersScore);
 				//console.log(idName + ' end score is now ' + z);
 			}
 			
@@ -287,7 +287,7 @@
 								playersDraw[i].push(x);
 								document.getElementById(idName + "Draw").innerHTML = playersDraw[i];
 								faceId(x, idName);
-								z = getScore(idNum);
+								z = getScore(idNum, playersScore);
 								//Enable Split
 								if (playersScore[i][0] == playersScore[i][1]) {
 									document.getElementById(idName + "btn3").disabled = false;
@@ -324,7 +324,7 @@
 				console.log(idName + ' is: ' + document.getElementById(idName + "Id").value);
 				
 				//Get Score
-				z = getScore(idNum);
+				z = getScore(idNum, playersScore);
 				console.log(idName + ' begin score is: ' + z);
 				
 				if (document.getElementById(idName + "Id").value == "robot") {
@@ -332,7 +332,7 @@
 					
 					//Determine Robot Behavior
 					//If Score if over 21 Do nothing
-					if (z > 21) z = getScore(idNum);
+					if (z > 21) z = getScore(idNum, playersScore);
 					//If player is under 21....
 					else {
 						//If Player is Between 20 and 18
@@ -354,7 +354,7 @@
 							} else {
 								console.log(idName + ' stayed');
 								console.log("Decision Random number is : " + u);
-								z = getScore(idNum);
+								z = getScore(idNum, playersScore);
 								document.getElementById(idName + 'Draw').innerHTML = playersDraw[idNum];
 							}
 						//If Score is Below 18
@@ -393,7 +393,7 @@
 					console.log('e exceeded 15! broke roboHit');
 					return;
 				}
-				if (document.getElementById(idName + "Score").innerHTML < 21) z = getScore(idNum);
+				if (document.getElementById(idName + "Score").innerHTML < 21) z = getScore(idNum, playersScore);
 			}
 			
 			function multiCall() {
@@ -566,7 +566,7 @@
 						//document.getElementById("hit").disabled = false;
 						//document.getElementById("stay").disabled = false;
 						playersScore[id].push(t);
-						getScore(id);
+						getScore(id, playersScore);
 						//document.getElementById('player' + id + "Score").innerHTML = z;
 						dlog.close();
 						
