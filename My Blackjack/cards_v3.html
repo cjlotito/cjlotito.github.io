@@ -185,11 +185,11 @@
 				tableIndex = [];
 				for (i = 0; i < x; i++) {
 				//working on max-width for radio buttons
-					tableIndex.push('<tr id = "player' + i + 'Row"><td><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br><p id="player' + i + 'bet">0</p></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+					tableIndex.push('<tr id = "player' + i + 'Row"><td><h1>WINS</h1><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				}
-				tableIndex.push('<tr id = "player' + i + 'Row"><td id = "player' + i + 'WLS">0</td><td id = "player' + i + 'Name">Dealer</td><td id = "player' + i + 'Draw">In Hand - </td><td id="player' + i + 'Score0">0</td><td style="visibility:hidden";><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, false, 0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+				tableIndex.push('<tr id = "player' + i + 'Row"><td><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled></td><td id = "player' + i + 'Name">Dealer</td><td id = "player' + i + 'Draw">In Hand - </td><td id="player' + i + 'Score0">0</td><td style="visibility:hidden";><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, false, 0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				
-				tableIndex.push('<td id = "controls" colspan="5" style="width:100%"><button class="button" id = "multiDeal" onclick="multiDeal()">Deal to Players</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button" id = "restart" onclick="multiRestart()">Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
+				tableIndex.push('<td id = "controls" colspan="5" style="width:100%"><button class="button" id = "multiDeal" onclick="multiDeal()">Deal to Players</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
 				console.log(tableIndex);
 				document.getElementById("newTable").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
 				for (i = 0; i < tableIndex.length; i++) {
@@ -305,6 +305,11 @@
 				document.getElementById("scores").disabled = false;
 				document.getElementById('scores').className = 'button';
 				
+				document.getElementById("restart").disabled = false;
+				document.getElementById('restart').className = 'button';
+				
+
+				
 				//Deal 2 cards
 				for (o = 0; o < 2; o++) {
 					//For Each Player
@@ -312,12 +317,22 @@
 						idName = 'player' + i;
 						idNum = idName.substring(6,7);
 						
+						rr = 0;
+						//Check Bets and wait NOT WORKING
+						while (document.getElementById(idName + "Bet").value > document.getElementById(idName + "Bank").value) {
+							if (rr ==1000) return;
+							console.log(idName + ' bet too high. rr count is: ' + rr);
+							rr++;
+							
+						}
+						
 						//Disable Radio Buttons
 						document.getElementById(idName + "StatusA").disabled = true;
 						document.getElementById(idName + "StatusB").disabled = true;
 						document.getElementById(idName + "StatusA").className = 'button disabled';
 						document.getElementById(idName + "StatusB").className = 'button disabled';
 						//console.log(idName + "Status is " + document.getElementById(idName + "Id").value);
+						document.getElementById(idName + "Bet").disabled = true;
 						
 						//If Human Enable Hit and Double Down Buttons
 						if (document.getElementById(idName + "Id").value == "human") {
@@ -546,6 +561,8 @@
 						newArr.push(idName + 'Score0');
 						WLS[i] = WLS[i] + 1;
 						document.getElementById(idName + "WLS").innerHTML = WLS[i];
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) + parseInt(document.getElementById(idName + "Bet").value);
+						//document.getElementById(idName + "Bet").value = "10";
 					}
 					//Separate Bust/Loser
 					else {
@@ -554,7 +571,11 @@
 						//console.log('score substring ' + r);
 						if (parseInt(r) > 21) {
 							if (document.getElementById(idName + "Id").value == "robot") document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + " BUST!";
-						} else document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + " LOSER!";
+						} else {
+							document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + " LOSER!";
+						}
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) - parseInt(document.getElementById(idName + "Bet").value);
+						//document.getElementById(idName + "Bet").value = "10";
 					}
 				}
 				
@@ -570,20 +591,28 @@
 			function multiRestart() {
 				//Need to Add a Wins Counter if you restart without Standing
 				for (i = 0; i < tableIndex.length - 1; i++) {
-					document.getElementById('player' + i + 'Draw').innerHTML = "In Hand -";
-					document.getElementById('player' + i + 'Score0').innerHTML = '0';
-					document.getElementById('player' + i + 'btn').disabled = true;
-					document.getElementById('player' + i + 'btn2').disabled = true;
-					document.getElementById('player' + i + 'btn3').disabled = true;
+					idName = 'player' + i;
 					
-					document.getElementById('player' + i + 'btn').className = 'button disabled';
-					document.getElementById('player' + i + 'btn2').className = 'button disabled';
-					document.getElementById('player' + i + 'btn3').className = 'button disabled';
-					if (document.getElementById('player' + i + 'Draw1')) {
-						element = document.getElementById('player' + i + 'Row');
-						element2 = document.getElementById('player' + i + 'Draw1')
-						element3 = document.getElementById('player' + i + 'Draw2')
-						element4 = document.getElementById('player' + i + 'Score1')
+					if ((document.getElementById('multiDeal').disabled = true) && (document.getElementById('scores').disabled != true)) {
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) - parseInt(document.getElementById(idName + "Bet").value);
+					}
+					
+					document.getElementById(idName + 'Draw').innerHTML = "In Hand";
+					document.getElementById(idName + 'Score0').innerHTML = '0';
+					document.getElementById(idName + 'btn').disabled = true;
+					document.getElementById(idName + 'btn2').disabled = true;
+					document.getElementById(idName + 'btn3').disabled = true;
+					
+					document.getElementById(idName + "Bet").disabled = false;
+					
+					document.getElementById(idName + 'btn').className = 'button disabled';
+					document.getElementById(idName + 'btn2').className = 'button disabled';
+					document.getElementById(idName + 'btn3').className = 'button disabled';
+					if (document.getElementById(idName + 'Draw1')) {
+						element = document.getElementById(idName + 'Row');
+						element2 = document.getElementById(idName + 'Draw1')
+						element3 = document.getElementById(idName + 'Draw2')
+						element4 = document.getElementById(idName + 'Score1')
 						element.removeChild(element2);
 						element.removeChild(element3);
 						element.removeChild(element4);
@@ -596,13 +625,15 @@
 				}
 				document.getElementById('multiDeal').disabled = false;
 				document.getElementById('scores').disabled = true;
-				document.getElementById('restart').disabled = false;
+				document.getElementById('restart').disabled = true;
 				document.getElementById('reset').disabled = false;
 				
 				document.getElementById('multiDeal').className = 'button';
 				document.getElementById('scores').className = 'button disabled';
-				document.getElementById('restart').className = 'button';
+				document.getElementById('restart').className = 'button disabled';
 				document.getElementById('reset').className = 'button';
+				
+				
 				
 				document.getElementById("headers").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
 				e = 0;
@@ -629,12 +660,14 @@
 					//document.getElementById(res + "Hit").style.visibility="show";
 					document.getElementById(res + "Hit").style="";
 					document.getElementById(res + "Id").value = value;
+					document.getElementById(res + "Bet").disabled = false;
 					console.log(res + ' set as human');
 				} else {
 					//document.getElementById(res + "Hit").style.display = "none";
 					//document.getElementById(res + "Hit").style.visibility="show";
 					document.getElementById(res + "Hit").style="background-color: red;visibility:hidden";
 					document.getElementById(res + "Id").value = value;
+					document.getElementById(res + "Bet").disabled = true;
 					console.log(res + ' set as Robot');
 				}
 			}
@@ -663,11 +696,11 @@
 				} else if (t == 98) {
 					document.getElementById("multiDeal").disabled = false;
 					document.getElementById("scores").disabled = true;
-					document.getElementById("restart").disabled = false;
+					document.getElementById("restart").disabled = true;
 					
 					document.getElementById("multiDeal").className = 'button';
 					document.getElementById("scores").className = 'button disabled';
-					document.getElementById("restart").className = 'button';
+					document.getElementById("restart").className = 'button disabled';
 					dlog.close();
 				} else {
 					if (document.getElementById('player' + id + "Id").value != null) {
