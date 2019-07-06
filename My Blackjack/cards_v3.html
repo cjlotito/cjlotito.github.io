@@ -185,7 +185,7 @@
 				tableIndex = [];
 				for (i = 0; i < x; i++) {
 				//working on max-width for radio buttons
-					tableIndex.push('<tr id = "player' + i + 'Row"><td id = "player' + i + 'WLS">0</td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+					tableIndex.push('<tr id = "player' + i + 'Row"><td><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br><p id="player' + i + 'bet">0</p></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				}
 				tableIndex.push('<tr id = "player' + i + 'Row"><td id = "player' + i + 'WLS">0</td><td id = "player' + i + 'Name">Dealer</td><td id = "player' + i + 'Draw">In Hand - </td><td id="player' + i + 'Score0">0</td><td style="visibility:hidden";><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, false, 0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				
@@ -380,6 +380,12 @@
 				//Error Protection
 				//console.log('e = ' + e);
 				console.log('Now running multiHit() with ' + idName);
+				
+				//Disable Buttons
+				document.getElementById(idName + "btn2").disabled = true;
+				document.getElementById(idName + "btn3").disabled = true;
+				document.getElementById(idName + "btn2").className = 'button disabled';
+				document.getElementById(idName + "btn3").className = 'button disabled';
 				
 
 				
@@ -597,6 +603,8 @@
 				document.getElementById('scores').className = 'button disabled';
 				document.getElementById('restart').className = 'button';
 				document.getElementById('reset').className = 'button';
+				
+				document.getElementById("headers").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
 				e = 0;
 				cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
 			}
