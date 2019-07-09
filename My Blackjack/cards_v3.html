@@ -834,7 +834,7 @@
 					console.log('idNum is : ' + idNum);
 				}
 				if (which == 0)  {
-					dWin = 'myDialog';
+					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
 					document.getElementById(dWin).innerHTML = '<p>' + id + '<br>Set the value of this Ace.</p><button class="button" onclick="closeDialog(1, true, ' + idNum + ', ' + otherW + ')">1</button><button class="button" onclick="closeDialog(11, true, ' + idNum + ', ' + otherW + ')">11</button>';
 				} else if (which == 1) {
@@ -854,7 +854,7 @@
 					dlog = document.getElementById(dWin);
 					document.getElementById(dWin).innerHTML = '<select id="mySelect" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
 				} else if (which == 5) {
-					dWin = 'myDialog';
+					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
 					if (idNum < tableIndex.length-2) {
 						idNum++;
@@ -868,7 +868,7 @@
 						playCheck();
 					}
 				} else if (which == 6) {
-					dWin = 'myDialog';
+					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
 					if (idNum < tableIndex.length-2) {
 						idNum++;
