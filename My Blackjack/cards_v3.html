@@ -891,7 +891,7 @@
 					//issues with yes buy more button
 					document.getElementById(dWin).innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips(' + idNum + ')">Yes</button><button class="button" onclick="dlog.close()">No</button>';
 				} else if (which == 9) {
-					dWin = 'myDialog';
+					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
 					document.getElementById(dWin).innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button>';	
 				} else if (which == 69) {
