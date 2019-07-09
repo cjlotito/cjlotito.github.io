@@ -886,7 +886,7 @@
 					dlog = document.getElementById(dWin);
 					document.getElementById(dWin).innerHTML = '<p>Not all players are ready to play.</p><br><button class="button" onclick="multiDeal()">Continue Without Them?</button><button class="button" onclick="dlog.close()">Fix The Issues</button>';
 				} else if (which == 8) {
-					dWin = 'myDialog';
+					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
 					//issues with yes buy more button
 					document.getElementById(dWin).innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips(' + idNum + ')">Yes</button><button class="button" onclick="dlog.close()">No</button>';
