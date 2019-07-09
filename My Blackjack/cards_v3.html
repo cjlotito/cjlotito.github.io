@@ -833,44 +833,71 @@
 					idNum = id.substring(6, 7);
 					console.log('idNum is : ' + idNum);
 				}
-				if (which == 0) document.getElementById("myDialog").innerHTML = '<p>' + id + '<br>Set the value of this Ace.</p><button class="button" onclick="closeDialog(1, true, ' + idNum + ', ' + otherW + ')">1</button><button class="button" onclick="closeDialog(11, true, ' + idNum + ', ' + otherW + ')">11</button>';
-				else if (which == 1) document.getElementById("myDialog").innerHTML = '<p>You Lose!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
-				else if (which == 2) document.getElementById("myDialog").innerHTML = '<p>You Win!<br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
-				else if (which == 3) document.getElementById("myDialog").innerHTML = '<p>TIE!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
-				else if (which == 4) document.getElementById("myDialog").innerHTML = '<select id="mySelect" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
-				else if (which == 5) {
+				if (which == 0)  {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>' + id + '<br>Set the value of this Ace.</p><button class="button" onclick="closeDialog(1, true, ' + idNum + ', ' + otherW + ')">1</button><button class="button" onclick="closeDialog(11, true, ' + idNum + ', ' + otherW + ')">11</button>';
+				} else if (which == 1) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>You Lose!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 2) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>You Win!<br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 3) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>TIE!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 4) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<select id="mySelect" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
+				} else if (which == 5) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
 					if (idNum < tableIndex.length-2) {
 						idNum++;
 						next = 'checkBet' + idNum + '(' + idNum + ')';
 						console.log('next is now: ' + next);
-						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick=' + next + '>close</button>';
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick=' + next + '>close</button>';
 					} else if (idNum < tableIndex.length-1) {
-						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick="playCheck();">close</button>';
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick="playCheck();">close</button>';
 					} else {
 						console.log('caling playCheck()');
 						playCheck();
 					}
 				} else if (which == 6) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
 					if (idNum < tableIndex.length-2) {
 						idNum++;
 						next = 'checkBet' + idNum + '(' + idNum + ')';
 						console.log('next is now: ' + next);
-						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick=' + next + '>close</button>';
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick=' + next + '>close</button>';
 					} else if (idNum < tableIndex.length-1) {
-						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick="playCheck();">close</button>';
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick="playCheck();">close</button>';
 					} else {
 						console.log('calling playCheck()');
 						playCheck();
 					}
 				} else if (which == 7) {
-					document.getElementById("myDialog").innerHTML = '<p>Not all players are ready to play.</p><br><button class="button" onclick="multiDeal()">Continue Without Them?</button><button class="button" onclick="dlog.close()">Fix The Issues</button>';
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>Not all players are ready to play.</p><br><button class="button" onclick="multiDeal()">Continue Without Them?</button><button class="button" onclick="dlog.close()">Fix The Issues</button>';
 				} else if (which == 8) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
 					//issues with yes buy more button
-					document.getElementById("myDialog").innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips(' + idNum + ')">Yes</button><button class="button" onclick="dlog.close()">No</button>';
+					document.getElementById(dWin).innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips(' + idNum + ')">Yes</button><button class="button" onclick="dlog.close()">No</button>';
 				} else if (which == 9) {
-					document.getElementById('myDialog').innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button>';	
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button>';	
 				} else if (which == 69) {
-					document.getElementById("myDialog").innerHTML = '<p>This is a test of the waitLoop Function.</p><button class="button" onclick="waitLoop(true)">close</button>';
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>This is a test of the waitLoop Function.</p><button class="button" onclick="waitLoop(true)">close</button>';
 				}
 				dlog.show();
 			}
