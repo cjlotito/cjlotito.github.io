@@ -448,7 +448,8 @@
 			function addChips(idNum, amt) {
 				dlog.close();
 				idName = 'player' + idNum;
-				document.getElementById(idName + 'Bank').value = parseInt(document.getElementById(idName + 'Bank').value) + amt;
+				if (document.getElementById(idName + 'Bank').value >= 1000000000) openDialog(10, idName);
+				else document.getElementById(idName + 'Bank').value = parseInt(document.getElementById(idName + 'Bank').value) + amt;
 			}
 			
 			function multiDeal() {
@@ -893,7 +894,11 @@
 				} else if (which == 9) {
 					dWin = 'player' + idNum + 'Dialog';
 					dlog = document.getElementById(dWin);
-					document.getElementById(dWin).innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button>';	
+					document.getElementById(dWin).innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button><button class="button" onclick="addChips('+idNum+',100)">100</button><button class="button" onclick="addChips('+idNum+',1000)">1000</button>';	
+				} else if (which ==10) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dwin).innerHTML = '<p>' + id + ' has too much many chips to buy anymore.</p><br><button class="button" onclick="dlog.close()">Ok</button>';
 				} else if (which == 69) {
 					dWin = 'myDialog';
 					dlog = document.getElementById(dWin);
