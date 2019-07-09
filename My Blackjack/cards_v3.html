@@ -54,6 +54,8 @@
 		<table id="newTable" style="width:100%">
 		<tr>
 			<td style="width:20%"><button class="button" id = "players" onclick="openDialog(4)">Set Players</button></td>
+			<td style="width:20%"><button class="button" id = "players" onclick="doHomework('math', alertFinished);">Do Homework</button></td>
+							
 		</tr>
 		</table>
 		
@@ -63,7 +65,7 @@
 		
 		</div>
 		<script>
-			var cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A']; playersDraw = [];playersScore0 = [];tableIndex = [];WLS= [];playersSplits1=[];playersScore1=[];playersSplits2=[];
+			var cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A']; playersDraw = [];playersScore0 = [];tableIndex = [];WLS= [];playersSplits1=[];playersScore1=[];playersSplits2=[];playerIss=[];
 			playersScore0.name = 0;
 			playersScore1.name = 1;
 			var drawSize = cards.length;e = 0;dlog = document.getElementById("myDialog");
@@ -185,11 +187,11 @@
 				tableIndex = [];
 				for (i = 0; i < x; i++) {
 				//working on max-width for radio buttons
-					tableIndex.push('<tr id = "player' + i + 'Row"><td><h1>WINS</h1><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+					tableIndex.push('<tr id = "player' + i + 'Row"><td><h1>WINS</h1><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled><button id="player' + i + 'Chips" onclick="openDialog(8, id)">Buy Chips</button></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				}
 				tableIndex.push('<tr id = "player' + i + 'Row"><td><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled></td><td id = "player' + i + 'Name">Dealer</td><td id = "player' + i + 'Draw">In Hand - </td><td id="player' + i + 'Score0">0</td><td style="visibility:hidden";><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, false, 0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
 				
-				tableIndex.push('<td id = "controls" colspan="5" style="width:100%"><button class="button" id = "multiDeal" onclick="multiDeal()">Deal to Players</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
+				tableIndex.push('<td id = "controls" colspan="5" style="width:100%"><button class="button" id = "multiDeal" onclick="checkBet0(0)">Deal to Players</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
 				console.log(tableIndex);
 				document.getElementById("newTable").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
 				for (i = 0; i < tableIndex.length; i++) {
@@ -293,7 +295,131 @@
 				//console.log(idName + ' end score is now ' + z);
 			}
 			
+			function checkBet0(incr) {
+				playerIss=[];
+				console.log('checking bets0');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else checkBet1(1);
+				
+			}
+			
+			function checkBet1(incr) {
+				console.log('checking bets1');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else checkBet2(2);
+				
+			}
+			
+			function checkBet2(incr) {
+				console.log('checking bets2');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else checkBet3(3);
+				
+			}
+			
+			function checkBet3(incr) {
+				console.log('checking bets3');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else checkBet4(4);
+				
+			}
+			
+			function checkBet4(incr) {
+				console.log('checking bets4');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else checkBet5(5);
+				
+			}
+			
+			function checkBet5(incr) {
+				console.log('checking bets5');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else playCheck();
+				
+			}
+			
+			function playCheck() {
+				dlog.close();
+				console.log('this is playCheck()');
+				if (playerIss.length != 0) {
+					console.log('not all players are ready to play');
+					openDialog(7);
+				} else multiDeal();
+			}
+			
+			function buyChips(id) {
+				console.log('buying chips');
+				
+			}
+			
 			function multiDeal() {
+				dlog.close();
 				//dlr = [];
 				playersCount = tableIndex.length - 1;
 				console.log('Number of players is : ' + playersCount);
@@ -318,13 +444,6 @@
 						idNum = idName.substring(6,7);
 						
 						rr = 0;
-						//Check Bets and wait NOT WORKING
-						while (document.getElementById(idName + "Bet").value > document.getElementById(idName + "Bank").value) {
-							if (rr ==1000) return;
-							console.log(idName + ' bet too high. rr count is: ' + rr);
-							rr++;
-							
-						}
 						
 						//Disable Radio Buttons
 						document.getElementById(idName + "StatusA").disabled = true;
@@ -686,6 +805,38 @@
 				else if (which == 2) document.getElementById("myDialog").innerHTML = '<p>You Win!<br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
 				else if (which == 3) document.getElementById("myDialog").innerHTML = '<p>TIE!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
 				else if (which == 4) document.getElementById("myDialog").innerHTML = '<select id="mySelect" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
+				else if (which == 5) {
+					if (idNum < tableIndex.length-2) {
+						idNum++;
+						next = 'checkBet' + idNum + '(' + idNum + ')';
+						console.log('next is now: ' + next);
+						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick=' + next + '>close</button>';
+					} else if (idNum < tableIndex.length-1) {
+						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick="playCheck();">close</button>';
+					} else {
+						console.log('caling playCheck()');
+						playCheck();
+					}
+				} else if (which == 6) {
+					if (idNum < tableIndex.length-2) {
+						idNum++;
+						next = 'checkBet' + idNum + '(' + idNum + ')';
+						console.log('next is now: ' + next);
+						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick=' + next + '>close</button>';
+					} else if (idNum < tableIndex.length-1) {
+						document.getElementById("myDialog").innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick="playCheck();">close</button>';
+					} else {
+						console.log('calling playCheck()');
+						playCheck();
+					}
+				} else if (which == 7) {
+					document.getElementById("myDialog").innerHTML = '<p>Not all players are ready to play.</p><br><button class="button" onclick="multiDeal()">Continue Without Them?</button><button class="button" onclick="dlog.close()">Fix The Issues</button>';
+				} else if (which == 8) {
+					//issues with yes buy more button
+					document.getElementById("myDialog").innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips("' + id + '")">Yes</button><button class="button" onclick="dlog.close()">No</button>';
+				} else if (which == 69) {
+					document.getElementById("myDialog").innerHTML = '<p>This is a test of the waitLoop Function.</p><button class="button" onclick="waitLoop(true)">close</button>';
+				}
 				dlog.show();
 			}
 			
