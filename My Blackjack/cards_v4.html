@@ -1,0 +1,971 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en"> 
+	<head> 
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<style>
+			body {
+				background-color: #ffffff;	
+			}
+			table, th, td {
+				border: 1px solid black;
+				border-collapse: collapse;
+				text-align: center;
+				height: 20px;
+				width: 15%
+				display: inline-block;
+				font-size: 16px;
+			}
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 24px;
+				margin: 4px 2px;
+				cursor: pointer;
+			}
+			
+			.disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+			
+			input[type="radio"] {
+				-ms-transform: scale(3); /* IE 9 */
+				-webkit-transform: scale(3); /* Chrome, Safari, Opera */
+				transform: scale(3);
+				display: inline;
+				margin: 10px 15px;
+			}
+			
+			#mySelect {
+				font-size: 24px;
+				padding: 18px 32px;
+				display: block;
+			}
+		</style>
+		<title>REALLLLY BASIC BLACKJACK</title> 
+	</head> 
+	<body> 
+		<div id="size" style="height:600px;width:100%;">
+		<dialog id="myDialog"></dialog>
+		<p style ="text-align:center">Array[2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A]</p>
+		<p id="card" style ="text-align:center" >This is my super basic version of blackjack</p>
+		<table id="newTable" style="width:100%">
+		<tr>
+			<td style="width:20%"><button class="button" id = "players" onclick="openDialog(4)">Set Players</button></td>
+		</tr>
+		</table>
+		
+		<table id="devTable" style="width:100%" onclick="devShow(id)">
+			<td id='devCell' colspan="5" style="visibility:hidden">Dev Panel<br><button class="button" id = "enableAll" onclick="enable()">Enable All Buttons</button></td>
+		</table>
+		
+		</div>
+		<script>
+			var cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A']; var cardsImg = ['2C','3C','4C','5C','6C','7C','8C','9C','10C','JC','QC','KC','AC','2H','3H','4H','5H','6H','7H','8H','9H','10H','JH','QH','KH','AH','2D','3D','4D','5D','6D','7D','8D','9D','10D','JD','QD','KD','AD','2S','3S','4S','5S','6S','7S','8S','9S','10S','JS','QS','KS','AS'];playersDrawImg = [];playersDraw = [];playersScore0 = [];tableIndex = [];WLS= [];playersSplits1=[];playersScore1=[];playersSplits2=[];playerIss=[];
+			playersScore0.name = 0;
+			playersScore1.name = 1;
+			var drawSize = cards.length;e = 0;dlog = document.getElementById("myDialog");
+			
+			function tester(id) {
+				console.log('you clicked: ' + id);
+			}
+			
+			function devShow(id) {
+				if (id =='devTable') {
+					console.log(document.getElementById('devCell').style.visibility);
+					if (document.getElementById('devCell').style.visibility == "hidden") devCell.style="";
+					else document.getElementById('devCell').style = "visibility:hidden";
+					
+				}
+			}
+			
+			function enable() {
+				for (i=0;i<tableIndex.length-2;i++){
+					document.getElementById('multiDeal').disabled = false;
+					document.getElementById('multiDeal').className = 'button';
+					
+					document.getElementById('scores').disabled = false;
+					document.getElementById('scores').className = 'button';
+					
+					document.getElementById('restart').disabled = false;
+					document.getElementById('restart').className = 'button';
+					
+					document.getElementById('reset').disabled = false;
+					document.getElementById('reset').className = 'button';
+				
+					document.getElementById('player' + i + 'btn').disabled = false;
+					document.getElementById('player' + i + 'btn').className = 'button';
+					
+					document.getElementById('player' + i + 'btn2').disabled = false;
+					document.getElementById('player' + i + 'btn2').className = 'button';
+					
+					document.getElementById('player' + i + 'btn3').disabled = false;
+					document.getElementById('player' + i + 'btn3').className = 'button';
+					
+					document.getElementById('player' + i + "Hit").style="";
+					document.getElementById('player' + i + "Id").value = 'human';
+				}
+			}
+			function multiDoubleDown(id) {
+				playNum = id.substring(0, 7);
+				document.getElementById(playNum + 'btn').disabled = true;
+				document.getElementById(playNum + 'btn').className = 'button disabled';
+				document.getElementById(playNum + 'btn2').disabled = true;
+				document.getElementById(playNum + 'btn2').className = 'button disabled';
+				multiHit(id,true,0);
+			}
+			
+			function multiSplit(id) {
+				idName = id.substring(0, 7);
+				idNum = id.substring(6,7);
+				
+				//Diable Split Button and Double Down
+				document.getElementById(idName + 'btn3').disabled = true;
+				document.getElementById(idName + 'btn3').className = 'button disabled';			
+				document.getElementById(idName + 'btn2').disabled = true;
+				document.getElementById(idName + 'btn2').className = 'button disabled';
+				document.getElementById(idName + 'btn').disabled = true;
+				document.getElementById(idName + 'btn').className = 'button disabled';
+				
+				//Get Button Value/Set to True
+				console.log(idName + ' value is: ' + document.getElementById(idName + 'btn3').value);
+				document.getElementById(idName + 'btn3').value = true;
+				console.log(idName + ' value is: ' + document.getElementById(idName + 'btn3').value);
+				
+				//Insert Cell For Split
+				var row = document.getElementById(idName + 'Row');
+				var x = row.insertCell(3);
+				x.id = idName + 'Draw1';
+				var y = row.insertCell(5);
+				y.id = idName + 'Draw2';
+				var z = row.insertCell(6);
+				z.id = idName + 'Score1';
+				
+				//Split Arrays
+				playersSplits1[idNum][0] = playersDrawImg[idNum][0];
+				playersSplits2[idNum][0] = playersDrawImg[idNum][1];
+				playersScore0[idNum][1] = 0;
+				playersScore1[idNum][0] = playersScore0[idNum][0];
+				
+				
+				//Set Cells to Scores
+				//split cell into Score and Hit Button
+				//player0WLS.innerHTML = '<table style="width:100%"><tr><td>' + playersSplits1[idNum][0] + '</td></tr><tr><td><button onclick="multiHit(' + player0 + ', true, 0)">Hit</button></td></tr></table>'
+				theId = "'" + idName + "'";
+				x.innerHTML = '<table class="splitHit" style="width:100%" id="player' + idNum + 'splitTab0"><tr><td id="player' + idNum + 'splitHit0">' + playersSplits1[idNum][0] + '</td></tr><tr><td><button id="player' + idNum + 'splitButton0" onclick="multiHit(' + theId + ', true, 0)" class="button">Hit</button></td></tr></table>';
+				y.innerHTML = '<table class="splitHit" style="width:100%" id="player' + idNum + 'splitTab1"><tr><td id="player' + idNum + 'splitHit1">' + playersSplits2[idNum][0] + '</td></tr><tr><td><button id="player' + idNum + 'splitButton1" onclick="multiHit(' + theId + ', true, 1)" class="button">Hit</button></td></tr></table>';
+				//y.innerHTML = playersSplits1[idNum][0];
+				z.innerHTML = playersScore0[idNum][0];
+				document.getElementById(idName + 'Score0').innerHTML = playersScore0[idNum][0];
+				
+				for(i=0;i<tableIndex.length-1;i++){
+					if(!document.getElementById('player' + i + 'Draw1')) {
+						//Insert Cell For Split
+						var row = document.getElementById('player' + i + 'Row');
+						var x = row.insertCell(3);
+						x.id = 'player' + i + 'Draw1';
+						var y = row.insertCell(5);
+						y.id = 'player' + i + 'Draw2';
+						var z = row.insertCell(6);
+						z.id = 'player' + i + 'Score1';
+					}
+				}
+				
+				document.getElementById('controls').colSpan = "9";
+				document.getElementById('headers').innerHTML = '<th>Standings</th><th>Players</th><th>Hands</th><th>Split 1</th><th>Score 1</th><th>Split 2</th><th>Score 2</th><th>Player Type</th><th>Actions</th>';
+				
+				
+				//Reset Score
+				getScore(idNum, playersScore0);
+			}
+			
+			function playerSelect() {
+				document.getElementById("newTable").innerHTML = "";
+				var x = document.getElementById("mySelect").value;
+				tableIndex = [];
+				for (i = 0; i < x; i++) {
+				//working on max-width for radio buttons
+					tableIndex.push('<tr id = "player' + i + 'Row"><td><dialog id="player' + i + 'Dialog"></dialog><h1>WINS</h1><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled><button id="player' + i + 'Chips" onclick="openDialog(8, id)">Buy Chips</button></td><td id = "player' + i + 'Name">Player ' + i + '</td><td id = "player' + i + 'Draw">In Hand</td><td id="player' + i + 'Score0">0</td><td style="text-align:left"><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";"><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, true,0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+				}
+				tableIndex.push('<tr id = "player' + i + 'Row"><td><dialog id="player' + i + 'Dialog"></dialog><p id = "player' + i + 'WLS">0</p><br><h1>BET</h1><br>$<input type="text" id="player' + i + 'Bank" value="1000" disabled><br>$<input type="text" id="player' + i + 'Bet" value="10" disabled></td><td id = "player' + i + 'Name">Dealer</td><td id = "player' + i + 'Draw">In Hand - </td><td id="player' + i + 'Score0">0</td><td style="visibility:hidden";><form action="/action_page.php"><input type="radio" id="player' + i + 'StatusA" name="status" value="robot" checked onchange="playerStatus(value, id)">Robot<br><input type="radio" id="player' + i + 'StatusB" name="status" value="human" onchange="playerStatus(value, id)">Human</form></td><td id="player' + i + 'Hit" style="visibility:hidden";><button class="button disabled" id = "player' + i + 'btn" onclick="multiHit(id, false, 0)" disabled>Hit</button><button class="button disabled" id = "player' + i + 'btn2" onclick="multiDoubleDown(id)" disabled>Double Down</button><button class="button disabled" id = "player' + i + 'btn3" value=false onclick="multiSplit(id)" disabled>Split</button><button class="button disabled" id = "player' + i + 'Id"  value = "robot" style="display:none" disabled>ID</button></td></tr>');
+				
+				tableIndex.push('<td id = "controls" colspan="5" style="width:100%"><button class="button" id = "multiDeal" onclick="checkBet0(0)">Deal to Players</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
+				console.log(tableIndex);
+				document.getElementById("newTable").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
+				for (i = 0; i < tableIndex.length; i++) {
+					x = document.getElementById("newTable").innerHTML;
+					document.getElementById("newTable").innerHTML = x + tableIndex[i];
+					if (i < tableIndex.length - 1) playersDraw[i] = [];
+					if (i < tableIndex.length - 1) playersDrawImg[i] = [];
+					if (i < tableIndex.length - 1) playersScore0[i] = [];
+					if (i < tableIndex.length - 1) playersScore1[i] = [];
+					if (i < tableIndex.length - 1) playersSplits1[i] = [];
+					if (i < tableIndex.length - 1) playersSplits2[i] = [];
+					if (i < tableIndex.length - 1) WLS.push(0);
+				}
+				console.log('Players Draw Array: ' + playersDrawImg);
+				console.log('Players Scores Array: ' + playersScore0);
+				closeDialog(98, false);
+			}
+			
+			function getScore(idNum, scoreArr) {
+				scoreNum = scoreArr.name;
+				console.log('Accessessing Array: playersScore ' + scoreNum);
+				//Obtain Player Score
+				hold = [];
+				for (p = 0; p < scoreArr[idNum].length; p++) {
+					l = parseInt(scoreArr[idNum][p]);
+					hold.push(l);
+				}
+				y = hold.reduce((a,b) => a+b,0);
+
+				document.getElementById('player' + idNum + "Score" + scoreNum).innerHTML = y;
+				return y;
+			}		
+			
+			function drawCard() {
+				//Draw Card from the Deck
+				x = Math.floor((Math.random() * drawSize));
+				x = Math.round(x);
+				b = x;
+				x = cardsImg[x];
+				cardsImg.splice(b, 1);
+				drawSize = cardsImg.length;
+				return x;
+			}
+			
+			function faceId(x, idName,which) {
+				idNum = idName.substring(6,7);
+				//Identify Face Card
+				if (x == 'J'  || x == 'Q' || x == 'K') x = 10; 
+				//Identify Card if Ace Card
+				 else if ( x == 'A') {
+					//If Human allow Human to choose Value
+					if (document.getElementById(idName + "Id").value == "human") openDialog(0, idName, which);
+					//If Robot Randomize Choice of Ace	
+					else {
+						y = getScore(idNum, playersScore0);
+						if (parseInt(y) > 10) x = 1;
+						else if (parseInt(y) == 10) x = 11;
+						else {
+							u = Math.floor((Math.random() * 100) + 1);
+							if (u > 50) x = 11;
+							else x = 1;
+						}
+						console.log(idName + ' assigned Ace value of ' + x);
+					}
+				}
+				if (x != "A") {
+					if (which == 0)	playersScore0[idNum].push(x);
+					if (which == 1)	playersScore1[idNum].push(x);
+				}
+				
+			}
+			
+			function comboHit(id, which) {
+				//Shorten Player Name/Number
+				idName = id.substring(0, 7);
+				idNum = id.substring(6,7);
+				//Hit
+				x = drawCard();
+				playersDrawImg[idNum].push('<img src="cards/'+x+'.png" width="140" height="200">');
+				//playersDraw[idNum].push(x);
+				if (x.length > 2) xC = x.substring(0,2);
+				else xC = x.substring(0,1);
+				document.getElementById(idName + "Draw").innerHTML = playersDrawImg[idNum];
+				console.log(idName + ' drew ' + xC);
+				if (which==0) {
+					//playersSplits1[idNum].push(xC);
+					playersSplits1[idNum].push('<img src="cards/'+x+'.png" width="140" height="200">');
+					if(document.getElementById(idName + 'splitHit' + which)) {
+						document.getElementById(idName + 'splitHit' + which).innerHTML = playersSplits1[idNum];
+					}
+					//document.getElementById(idName + "splitHit" + which).innerHTML = playersSplits1[idNum];
+				} else if (which == 1) {
+					//playersSplits2[idNum].push(xC);
+					playersSplits2[idNum].push('<img src="cards/'+x+'.png" width="140" height="200">')
+					if(document.getElementById(idName + 'splitHit' + which)) {
+						document.getElementById(idName + 'splitHit' + which).innerHTML = playersSplits2[idNum];
+					}
+					//document.getElementById(idName + "Draw").innerHTML = playersSplits1[idNum];
+				}
+				
+				//Determine Face Card Value
+				faceId(xC, idName, which);
+				
+				//Update Score
+				if (which == 0) z = getScore(idNum, playersScore0);
+				else if (which == 1) z = getScore(idNum, playersScore1);
+				//console.log(idName + ' end score is now ' + z);
+			}
+			
+			function checkBet0(incr) {
+				playerIss=[];
+				console.log('checking bets0');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else {
+					check = tableIndex.length -2;
+					if (incr >= check) {
+						playCheck();
+					} else checkBet1(1);
+				}
+				
+			}
+			
+			function checkBet1(incr) {
+				console.log('checking bets1');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else {
+					check = tableIndex.length -2;
+					if (incr >= check) {
+						playCheck();
+					} else checkBet2(2);
+				}
+				
+			}
+			
+			function checkBet2(incr) {
+				console.log('checking bets2');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else {
+					check = tableIndex.length -2;
+					if (incr >= check) {
+						playCheck();
+					} else checkBet3(3);
+				}
+				
+			}
+			
+			function checkBet3(incr) {
+				console.log('checking bets3');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else {
+					check = tableIndex.length -2;
+					if (incr >= check) {
+						playCheck();
+					} else checkBet4(4);
+				}
+				
+			}
+			
+			function checkBet4(incr) {
+				console.log('checking bets4');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else {
+					check = tableIndex.length -2;
+					if (incr >= check) {
+						playCheck();
+					} else checkBet5(5);
+				}
+				
+			}
+			
+			function checkBet5(incr) {
+				console.log('checking bets5');
+				idName = 'player' + incr;
+				afterBet = document.getElementById(idName + 'Bank').value - document.getElementById(idName + 'Bet').value;
+				if (document.getElementById(idName + 'Bank').value <= 0 || afterBet < 0) {
+					if (document.getElementById(idName + 'Bank').value <= 0) {
+						console.log(idName + ' has no money in the bank');
+						playerIss.push(incr);
+						openDialog(5, idName);
+					} else if (afterBet < 0) {
+						console.log(idName + ' bet is too high');
+						playerIss.push(incr);
+						openDialog(6, idName);
+					}
+				} else playCheck();
+				
+			}
+			
+			function playCheck() {
+				dlog.close();
+				console.log('this is playCheck()');
+				if (playerIss.length != 0) {
+					console.log('not all players are ready to play');
+					openDialog(7);
+				} else multiDeal();
+			}
+			
+			function buyChips(id) {
+				idName = 'player' + id;
+				console.log('buying chips for ' + idName);
+				openDialog(9, idName);
+			}
+			
+			function addChips(idNum, amt) {
+				dlog.close();
+				idName = 'player' + idNum;
+				if (document.getElementById(idName + 'Bank').value >= 1000000000) openDialog(10, idName);
+				else document.getElementById(idName + 'Bank').value = parseInt(document.getElementById(idName + 'Bank').value) + amt;
+			}
+			
+			function multiDeal() {
+				dlog.close();
+				//dlr = [];
+				playersCount = tableIndex.length - 1;
+				console.log('Number of players is : ' + playersCount);
+				
+				//Diasble Hit Button
+				document.getElementById("multiDeal").disabled = true;
+				document.getElementById('multiDeal').className = 'button disabled';
+				
+				document.getElementById("scores").disabled = false;
+				document.getElementById('scores').className = 'button';
+				
+				document.getElementById("restart").disabled = false;
+				document.getElementById('restart').className = 'button';
+				
+
+				
+				//Deal 2 cards
+				for (o = 0; o < 2; o++) {
+					//For Each Player
+					for (i = 0; i < playersCount; i++) {
+						idName = 'player' + i;
+						idNum = idName.substring(6,7);
+						
+						rr = 0;
+						
+						//Disable Radio Buttons
+						document.getElementById(idName + "StatusA").disabled = true;
+						document.getElementById(idName + "StatusB").disabled = true;
+						document.getElementById(idName + "StatusA").className = 'button disabled';
+						document.getElementById(idName + "StatusB").className = 'button disabled';
+						//console.log(idName + "Status is " + document.getElementById(idName + "Id").value);
+						document.getElementById(idName + "Bet").disabled = true;
+						
+						//If Human Enable Hit and Double Down Buttons
+						if (document.getElementById(idName + "Id").value == "human") {
+							document.getElementById(idName + "btn").disabled = false;
+							document.getElementById(idName + "btn2").disabled = false;
+							document.getElementById(idName + "btn").className = 'button';
+							document.getElementById(idName + "btn2").className = 'button';
+						}
+						
+						//Draw Card from the Deck						
+						x = drawCard();
+						if (x.length > 2) xC = x.substring(0,2);
+						else xC = x.substring(0,1);
+						console.log('player' + i + ' drew ' + x);
+						
+						//Set Dealer ID	
+						r = tableIndex.length - 2;
+						q = "player" + r + "Name";
+						s = document.getElementById(idName + "Name").id;
+						
+						//If/Else Push Cards to playersDraw[] Array
+						//If Second Card Dealt...hide Dealer card
+						if (o == 1) {
+							//Dealer
+							if (s == q) {
+								
+								//playersDraw[tableIndex.length - 2].push(xC);
+								playersDrawImg[tableIndex.length - 2].push('<img src="cards/'+x+'.png" width="140" height="200">');
+								document.getElementById(idName + "Draw").innerHTML = playersDrawImg[tableIndex.length - 2][0];
+								//document.getElementById(idName + "Draw").innerHTML = playersDraw[tableIndex.length - 2][0];
+								faceId(xC, idName,0);
+								document.getElementById(idName + "Score0").innerHTML = playersScore0[tableIndex.length - 2][0];
+							//Not Dealer
+							} else {
+								playersDrawImg[i].push('<img src="cards/'+x+'.png" width="140" height="200">');
+								document.getElementById(idName + "Draw").innerHTML = playersDrawImg[i];
+								faceId(xC, idName,0);
+								z = getScore(idNum, playersScore0);
+								//Enable Split
+								if (playersScore0[i][0] == playersScore0[i][1]) {
+									document.getElementById(idName + "btn3").disabled = false;
+									document.getElementById(idName + "btn3").className = 'button';
+								}								
+							}
+						//If First Card Dealt
+						} else {
+							playersDrawImg[i].push('<img src="cards/'+x+'.png" width="140" height="200">');
+
+							faceId(xC, idName,0);
+						}
+
+					}
+
+				}
+				console.log('Players Draw array is: ' + playersDrawImg);
+				console.log('Players Scores array is: ' + playersScore0);
+				console.log('Deck now contains: ' + cards);
+				console.log('Thats ' + cardsImg.length + ' cards left');
+			}
+			
+			function multiHit(id, press, which) {
+				//Shorten Player Name/Number
+				idName = id.substring(0, 7);
+				idNum = id.substring(6,7);
+				
+				//Error Protection
+				//console.log('e = ' + e);
+				console.log('Now running multiHit() with ' + idName);
+				
+				//Disable Buttons
+				document.getElementById(idName + "btn2").disabled = true;
+				document.getElementById(idName + "btn3").disabled = true;
+				document.getElementById(idName + "btn2").className = 'button disabled';
+				document.getElementById(idName + "btn3").className = 'button disabled';
+				
+
+				
+				//Determine Player Type
+				console.log(idName + ' is: ' + document.getElementById(idName + "Id").value);
+				
+				//Get Score
+				z = getScore(idNum, playersScore0);
+				console.log(idName + ' begin score is: ' + z);
+				
+				if (document.getElementById(idName + "Id").value == "robot") {
+					//console.log("player" + idNum + " is a robot");
+					
+					//Determine Robot Behavior
+					//If Score if over 21 Do nothing
+					if (z > 21) z = getScore(idNum, playersScore0);
+					//If player is under 21....
+					else {
+						//If Player is Between 20 and 18
+						if (z <= 17 && z >= 15) {
+							//Choose a random number
+							u = Math.floor((Math.random() * 100) + 1);
+							
+							//If the Random Number is less than 25...
+							if (u < 25) {
+								console.log(idName + ' score was between 17 and 15 and random number said to hit');
+								//Hit
+								comboHit(idName, 0);
+								
+								console.log(idName +  ' end score is: ' + parseInt(document.getElementById(idName + "Score0").innerHTML));
+								
+								//Recall RoboHit()
+								multiHit(idName, false,0);
+							//If Random Number is above 25 Stay
+							} else {
+								console.log(idName + ' stayed');
+								console.log("Decision Random number is : " + u);
+								z = getScore(idNum, playersScore0);
+								document.getElementById(idName + 'Draw').innerHTML = playersDrawImg[idNum];
+							}
+						//If Score is Below 18
+						} else if (z < 15) {
+							console.log(idName + ' score was below 15 so it hit');
+							//Hit
+							comboHit(idName,0);
+							
+							console.log(idName +  ' end score is: ' + parseInt(document.getElementById(idName + "Score0").innerHTML));
+							//Recall RoboHit()
+							multiHit(idName,false,0);
+						}
+					}
+				} else if (document.getElementById(idName + "Id").value == "human") {
+					if (press) {
+						press = false;
+						//Hit
+						comboHit(idName,which);
+						
+						console.log(idName + 'end score is: ' + document.getElementById(idName + "Score0").innerHTML);
+						
+						//Update/Check Score for Button Update
+						if (document.getElementById(idName + "Score0").innerHTML > 21) {
+							console.log('too high');
+							document.getElementById(idName + 'btn').disabled = true;
+							document.getElementById(idName + 'btn2').disabled = true;
+							document.getElementById(idName + 'btn').className = 'button disabled';
+							document.getElementById(idName + 'btn2').className = 'button disabled';
+							if (document.getElementById(idName + 'splitButton0')){
+								document.getElementById(idName + 'splitButton0').disabled = true;
+								document.getElementById(idName + 'splitButton0').className = 'button disabled';
+							}
+							document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + ' BUST';
+						}
+						//Update/Check Score for Button Update
+						if(document.getElementById(idName + "Score1")){
+							if (document.getElementById(idName + "Score1").innerHTML > 21) {
+								console.log('too high');
+								document.getElementById(idName + 'btn').disabled = true;
+								document.getElementById(idName + 'btn2').disabled = true;
+								document.getElementById(idName + 'btn').className = 'button disabled';
+								document.getElementById(idName + 'btn2').className = 'button disabled';
+								if (document.getElementById(idName + 'splitButton1')){
+									document.getElementById(idName + 'splitButton1').disabled = true;
+									document.getElementById(idName + 'splitButton1').className = 'button disabled';
+								}
+								document.getElementById(idName + "Score1").innerHTML = document.getElementById(idName + "Score1").innerHTML + ' BUST';
+							}
+						}
+					}
+				}
+				e++;
+				//Error Protection
+				if (e >= 50) {
+					console.log('e exceeded 15! broke roboHit');
+					return;
+				}
+				if (document.getElementById(idName + "Score0").innerHTML < 21) z = getScore(idNum, playersScore0);
+			}
+			
+			function multiCall() {
+				//Error Protection
+				if (e >= 50) {
+					console.log('e exceeded 15! broke multicall main');
+					return;
+				}
+				
+				newArr = [];
+				
+				//Disable Buttons
+				for (i = 0; i < tableIndex.length - 2; i++) {
+					document.getElementById("scores").disabled = true;
+					document.getElementById("player" + i + "btn").disabled = true;
+					document.getElementById("player" + i + "btn2").disabled = true;
+					document.getElementById("scores").className = 'button disabled';
+					document.getElementById("player" + i + "btn").className = 'button disabled';
+					document.getElementById("player" + i + "btn2").className = 'button disabled';
+					if (document.getElementById(idName + 'splitButton0')){
+						document.getElementById(idName + 'splitButton0').disabled = true;
+						document.getElementById(idName + 'splitButton0').className = 'button disabled';
+					}
+					if (document.getElementById(idName + 'splitButton1')){
+						document.getElementById(idName + 'splitButton1').disabled = true;
+						document.getElementById(idName + 'splitButton1').className = 'button disabled';
+					}
+				}
+				console.log("Call");
+				
+				//Start RoboHits()
+				var scores = [];
+				for (i = 0; i < tableIndex.length - 1; i++) {
+					idName = "player" + i;
+					//Error Protection
+					if (e >= 50) {
+						console.log('e exceeded 15! broke multicall If');
+						return;
+					}
+					multiHit(idName,false,0);
+					console.log(idName +  ' end score is: ' + parseInt(document.getElementById(idName + "Score0").innerHTML));
+					scores.push(parseInt(document.getElementById(idName + "Score0").innerHTML));
+				}
+				console.log('Final scores: ' + scores);
+				
+				
+				
+				//Set Highest Score(s)
+				newScores = [];
+				x = 0;
+				for (i = 0; i < scores.length; i++) {
+					if (scores[i] <= 21) {
+						if (scores[i] > x) x = scores[i];
+					}
+				}
+				
+				//Sort Winner/Loser/Bust/Push
+				for (i = 0; i < scores.length; i++) {
+					idName = "player" + i;
+					//Separate Winners/Push
+					if (document.getElementById(idName + "Score0").innerHTML == x) {
+						newArr.push(idName + 'Score0');
+						WLS[i] = WLS[i] + 1;
+						document.getElementById(idName + "WLS").innerHTML = WLS[i];
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) + parseInt(document.getElementById(idName + "Bet").value);
+						//document.getElementById(idName + "Bet").value = "10";
+					}
+					//Separate Bust/Loser
+					else {
+						q = document.getElementById(idName + "Score0").innerHTML
+						r = q.substring(0, 2);
+						//console.log('score substring ' + r);
+						if (parseInt(r) > 21) {
+							if (document.getElementById(idName + "Id").value == "robot") document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + " BUST!";
+						} else {
+							document.getElementById(idName + "Score0").innerHTML = document.getElementById(idName + "Score0").innerHTML + " LOSER!";
+						}
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) - parseInt(document.getElementById(idName + "Bet").value);
+						//document.getElementById(idName + "Bet").value = "10";
+					}
+				}
+				
+				console.log('Winners are: ' + newArr);
+				
+				//Update Winner/Push from newArr
+				for (i = 0; i < newArr.length; i++) {
+					if (newArr.length > 1) document.getElementById(newArr[i]).innerHTML = document.getElementById(newArr[i]).innerHTML + " PUSH!";
+					else document.getElementById(newArr[i]).innerHTML = document.getElementById(newArr[i]).innerHTML + " WINNER!";
+				}
+			}
+			
+			function multiRestart() {
+				//Need to Add a Wins Counter if you restart without Standing
+				for (i = 0; i < tableIndex.length - 1; i++) {
+					idName = 'player' + i;
+					
+					if ((document.getElementById('multiDeal').disabled = true) && (document.getElementById('scores').disabled != true)) {
+						document.getElementById(idName + "Bank").value = parseInt(document.getElementById(idName + "Bank").value) - parseInt(document.getElementById(idName + "Bet").value);
+					}
+					
+					document.getElementById(idName + 'Draw').innerHTML = "In Hand";
+					document.getElementById(idName + 'Score0').innerHTML = '0';
+					document.getElementById(idName + 'btn').disabled = true;
+					document.getElementById(idName + 'btn2').disabled = true;
+					document.getElementById(idName + 'btn3').disabled = true;
+					
+					document.getElementById(idName + "Bet").disabled = false;
+					
+					document.getElementById(idName + 'btn').className = 'button disabled';
+					document.getElementById(idName + 'btn2').className = 'button disabled';
+					document.getElementById(idName + 'btn3').className = 'button disabled';
+					if (document.getElementById(idName + 'Draw1')) {
+						element = document.getElementById(idName + 'Row');
+						element2 = document.getElementById(idName + 'Draw1')
+						element3 = document.getElementById(idName + 'Draw2')
+						element4 = document.getElementById(idName + 'Score1')
+						element.removeChild(element2);
+						element.removeChild(element3);
+						element.removeChild(element4);
+					}
+					if (i < tableIndex.length - 1) playersDraw[i] = [];
+					if (i < tableIndex.length - 1) playersDrawImg[i] = [];
+					if (i < tableIndex.length - 1) playersScore0[i] = [];
+					if (i < tableIndex.length - 1) playersSplits1[i] = [];
+					if (i < tableIndex.length - 1) playersSplits2[i] = [];
+					if (i < tableIndex.length - 1) playersScore1[i] = [];
+				}
+				document.getElementById('multiDeal').disabled = false;
+				document.getElementById('scores').disabled = true;
+				document.getElementById('restart').disabled = true;
+				document.getElementById('reset').disabled = false;
+				
+				document.getElementById('multiDeal').className = 'button';
+				document.getElementById('scores').className = 'button disabled';
+				document.getElementById('restart').className = 'button disabled';
+				document.getElementById('reset').className = 'button';
+				
+				
+				
+				document.getElementById("headers").innerHTML = '<tr id="headers"><th>Standings</th><th>Players</th><th>Hands</th><th>Scores</th><th>Player Type</th><th>Actions</th></tr>';
+				e = 0;
+				cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+				cardsImg = ['2C','3C','4C','5C','6C','7C','8C','9C','10C','JC','QC','KC','AC','2H','3H','4H','5H','6H','7H','8H','9H','10H','JH','QH','KH','AH','2D','3D','4D','5D','6D','7D','8D','9D','10D','JD','QD','KD','AD','2S','3S','4S','5S','6S','7S','8S','9S','10S','JS','QS','KS','AS'];
+			}
+			
+			function multiReset() {
+				for (i = 0; i < tableIndex.length - 1; i++) {
+					if (i < tableIndex.length - 1) playersDraw[i] = [];
+					if (i < tableIndex.length - 1) playersDrawImg[i] = [];
+					if (i < tableIndex.length - 1) playersScore0[i] = [];
+					if (i < tableIndex.length - 1) playersSplits1[i] = [];
+					if (i < tableIndex.length - 1) playersSplits2[i] = [];
+					if (i < tableIndex.length - 1) playersScore1[i] = [];
+				}
+				document.getElementById("newTable").innerHTML = '<tr><td><button class="button" id = "players" onclick="openDialog(4)">Set Players</button></td></tr>';
+				e = 0;
+				cards = [2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A',2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+				cardsImg = ['2C','3C','4C','5C','6C','7C','8C','9C','10C','JC','QC','KC','AC','2H','3H','4H','5H','6H','7H','8H','9H','10H','JH','QH','KH','AH','2D','3D','4D','5D','6D','7D','8D','9D','10D','JD','QD','KD','AD','2S','3S','4S','5S','6S','7S','8S','9S','10S','JS','QS','KS','AS'];
+			}
+			
+			function playerStatus(value, id) {
+				res = id.substring(0, 7);
+				if (value == "human") {
+					//document.getElementById(res + "Hit").style.display = "block";
+					//document.getElementById(res + "Hit").style.visibility="show";
+					document.getElementById(res + "Hit").style="";
+					document.getElementById(res + "Id").value = value;
+					document.getElementById(res + "Bet").disabled = false;
+					console.log(res + ' set as human');
+				} else {
+					//document.getElementById(res + "Hit").style.display = "none";
+					//document.getElementById(res + "Hit").style.visibility="show";
+					document.getElementById(res + "Hit").style="background-color: red;visibility:hidden";
+					document.getElementById(res + "Id").value = value;
+					document.getElementById(res + "Bet").disabled = true;
+					console.log(res + ' set as Robot');
+				}
+			}
+
+
+			function openDialog(which, id,otherW) {
+				//document.getElementById("hit").disabled = true;
+				//document.getElementById("stay").disabled = true;
+				
+				if (id != null) {
+					idNum = id.substring(6, 7);
+					console.log('idNum is : ' + idNum);
+				}
+				if (which == 0)  {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>' + id + '<br>Set the value of this Ace.</p><button class="button" onclick="closeDialog(1, true, ' + idNum + ', ' + otherW + ')">1</button><button class="button" onclick="closeDialog(11, true, ' + idNum + ', ' + otherW + ')">11</button>';
+				} else if (which == 1) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>You Lose!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 2) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>You Win!<br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 3) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>TIE!</p><br><button onclick="closeDialog(98, false)">Ok</button>&nbsp;<button onclick="closeDialog(99, false)">Restart</button>';
+				} else if (which == 4) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<select id="mySelect" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
+				} else if (which == 5) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					if (idNum < tableIndex.length-2) {
+						idNum++;
+						next = 'checkBet' + idNum + '(' + idNum + ')';
+						console.log('next is now: ' + next);
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick=' + next + '>close</button>';
+					} else if (idNum < tableIndex.length-1) {
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bank balance is too low.</p><button class="button" onclick="playCheck();">close</button>';
+					} else {
+						console.log('caling playCheck()');
+						playCheck();
+					}
+				} else if (which == 6) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					if (idNum < tableIndex.length-2) {
+						idNum++;
+						next = 'checkBet' + idNum + '(' + idNum + ')';
+						console.log('next is now: ' + next);
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick=' + next + '>close</button>';
+					} else if (idNum < tableIndex.length-1) {
+						document.getElementById(dWin).innerHTML = '<p>' + id + '<br> bet is too high.</p><button class="button" onclick="playCheck();">close</button>';
+					} else {
+						console.log('calling playCheck()');
+						playCheck();
+					}
+				} else if (which == 7) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>Not all players are ready to play.</p><br><button class="button" onclick="multiDeal()">Continue Without Them?</button><button class="button" onclick="dlog.close()">Fix The Issues</button>';
+				} else if (which == 8) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					//issues with yes buy more button
+					document.getElementById(dWin).innerHTML = '<p>Buy more chips? .</p><br><button class="button" onclick="buyChips(' + idNum + ')">Yes</button><button class="button" onclick="dlog.close()">No</button>';
+				} else if (which == 9) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>How many chips would you like?</p><button class="button" onclick="addChips('+idNum+',10)">10</button><button class="button" onclick="addChips('+idNum+',100)">100</button><button class="button" onclick="addChips('+idNum+',1000)">1000</button>';	
+				} else if (which ==10) {
+					dWin = 'player' + idNum + 'Dialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>' + id + ' has too much many chips to buy anymore.</p><br><button class="button" onclick="dlog.close()">Ok</button>';
+				} else if (which == 69) {
+					dWin = 'myDialog';
+					dlog = document.getElementById(dWin);
+					document.getElementById(dWin).innerHTML = '<p>This is a test of the waitLoop Function.</p><button class="button" onclick="waitLoop(true)">close</button>';
+				}
+				dlog.show();
+			}
+			
+			function closeDialog(t, a, id, which) {
+				if (t == 99) {
+					dlog.close();
+					restart();
+				} else if (t == 98) {
+					document.getElementById("multiDeal").disabled = false;
+					document.getElementById("scores").disabled = true;
+					document.getElementById("restart").disabled = true;
+					
+					document.getElementById("multiDeal").className = 'button';
+					document.getElementById("scores").className = 'button disabled';
+					document.getElementById("restart").className = 'button disabled';
+					dlog.close();
+				} else {
+					if (document.getElementById('player' + id + "Id").value != null) {
+						console.log('Setting Aces for : ' + id);
+						//document.getElementById("hit").disabled = false;
+						//document.getElementById("stay").disabled = false;
+						if (which == 0) {
+							playersScore0[id].push(t);
+							getScore(id, playersScore0);
+						} else if (which == 1) {
+							playersScore1[id].push(t);
+							getScore(id, playersScore1);
+						}
+						//document.getElementById('player' + id + "Score").innerHTML = z;
+						dlog.close();
+						
+					} else {
+						document.getElementById("secret").innerHTML = t; 
+						console.log("Secret is currently : " + document.getElementById("secret").innerHTML);
+						//document.getElementById("hit").disabled = false;
+						//document.getElementById("stay").disabled = false;
+						//x = parseInt(document.getElementById("secret").innerHTML);
+						if (a = true) {
+							playCard(x, "your", 0);
+							dlog.close(); 
+						}
+					}
+				}
+			}
+		</script>			
+	</body> 
+</html>
