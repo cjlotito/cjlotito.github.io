@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en"> 
+	<head> 
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<style>
+			body {
+				background-color: #ffffff;	
+			}
+			table, th, td {
+				border: 1px solid black;
+				border-collapse: collapse;
+				text-align: center;
+				height: 20px;
+				width: 15%
+				display: inline-block;
+				font-size: 16px;
+			}
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 24px;
+				margin: 4px 2px;
+				cursor: pointer;
+			}
+			
+			.disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+		</style>
+		<title>Unofficial Munchkin</title> 
+	</head> 
+	<body> 
+		<div id="size" style="height:600px;width:100%;">
+		<dialog id="mainDialog"></dialog>
+		<p style ="text-align:center">Array[2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A,2,3,4,5,6,7,8,9,10,J,Q,K,A]</p>
+		<p id="card" style ="text-align:center" >This is my super basic version of blackjack</p>
+		<table id="newTable" style="width:100%">
+		<tr>
+			<td style="width:20%"><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></td>
+		</tr>
+		</table>
+		
+		<table id="devTable" style="width:100%" onclick="devShow(id)">
+			<td id='devCell' colspan="5" style="visibility:hidden">Dev Panel<br><button class="button" id = "enableAll" onclick="enable()">Enable All Buttons</button></td>
+		</table>
+		
+		</div>
+	<script>
+		//door - [0, 'crabs',1,'cannot outrun', 'discard armor and all items below waist', 1] - [type, name, level,text,bad stuff, levels, number of treasure]
+		//type 0 - monster, 1- race, 2-curse
+		//treasure - [0,2,'buckler of swaching', 1,400] - [type, bonus, name,number of hands, number of gold]
+		//type 0-arm 1-two arm 2-head 3-foot 4-armor 5-one-shot 6-bonus
+		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [];player1Draw = [];player2Draw = [];player3Draw = [];player4Draw = [];player5Draw = [];
+		
+		doorDeck = [[0,'crabs',1,'cannot outrun', 'discard armor and all items below waist', 1,1],[0,'fairy dragon',3,'instead of fighting, discard a treasure to have ti join you giving +3 bonus','hexes you, until next turn. must help anyone who asks without reward, unless the combat is for th e winning level',1,1], [0,'dragonne with the wind', 18, 'any fire/flame the munchkins have count for her','takes half your thing rounded up, you choose which half', 2, 4], [1,'may sell one item each turn for double price. others are normal. if you fail an initial run away roll, you can discard a card to try once more.'], [2,'foul smelling -5 to monster. play during any combat. if the monster is defeated draw one fewer treasure, minimum of 1'],[2, 'pants on fire! lose an item and level'], [2, 'random horrible death. lose 2 levels'],[2,'taste like baby. turn over the top 3 cards of the door deck, fight the highest level. discard the others.'],[0,'chicken with attitude',5,'+5 against any munchkin who has eaten chich in the last 24 hours. +10 if your eating chicken right now.','lose a level',1,2],[0,'innocent villagers',10,'they were so peaceful until you came along. +4 against anyone with a helper.','lose your footgear',1,3],[0,'king torg',20,'if you discard baby food king torg slinks off to discards','you are quite messily dead',2,5],[2,'lose a level']];
+		
+		
+		treasureDeck = [[0,2,'buckler of swaching', 1,400],[5,10,'skull kick'],[4,'not usable by wizard', 'big', 600],[5, 5, 'electric radioactive acid potion'],[1,3,'huge rock',2,'big',0],[6,3,'really impressive title'],[5,2,'potion of halitosis', 'instantly kills floating nose',100],[5,2,'potion of idiotic bravery',100],[5,3,'flaming poison potion',100],[6,1,'spiky knees',200],[5,3,'cotion of ponfusion',100],[0,1,'rat on a stick. may be discarded for an automatic escape from any monster 8 or below']];
+		
+		drawSizeDoor = doorDeck.length;drawSizeTreasure = treasureDeck.length;
+		
+		function tester(id) {
+			//Tester Function for Buttons and ids
+			console.log('you clicked: ' + id);
+		}
+			
+		function openDialog(dCase, id, which) {
+			//Change Dialog HTML and open dialog while passing data
+			//Get idNum
+			if (id != null) {
+				idNum = id.substring(6, 7);
+				console.log('idNum is : ' + idNum);
+			}
+			
+			//Player Select Dialog
+			if (dCase == 0)  {
+				dWin = 'mainDialog';
+				dlog = document.getElementById(dWin);
+				document.getElementById(dWin).innerHTML = '<select id="playerNum" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
+			}
+			dlog.show();
+		}
+		
+		function closeDialog(dCase, id, which) {
+			//Call next function and close dialog
+			//Get idNum
+			if (id != null) {
+				idNum = id.substring(6, 7);
+				console.log('idNum is : ' + idNum);
+			}
+			
+			//Generic Close
+			if (dCase == 0) {
+				dlog.close();
+			}
+		}
+		
+		function playerSelect() {
+			//Setup Player Table
+			document.getElementById("newTable").innerHTML = "";
+			var x = document.getElementById("playerNum").value;
+			tableIndex = [];
+			
+			//Put Player Info In Table
+			for (i = 0; i < x; i++) {
+				tableIndex.push('<td id = "player' + i + 'Cell">player' + i + '<td>');
+				playerStats[i] = ['player' + i , "human", 0, "noClass", "noHead", "noArmor", "noBoot", "noArm1", "noArm2"];
+			}
+			
+			//Add Headers
+			document.getElementById("newTable").innerHTML = '<tr id="headers"><th>Headers</th></tr>';
+			
+			//Randomize Player Order
+			for (i = 0; i< x; i++) {
+				len = tableIndex.length;
+				rnd = Math.floor(Math.random() * len);
+				tableIndexRnd.push(tableIndex[rnd]);
+				tableIndex.splice(rnd, 1);
+			}
+			
+			//Add Control Buttons
+			tableIndexRnd.push('<td id = "controls"  style="width:100%"><button class="button" id = "multiDeal" onclick="deal()">Deal</button><button class="button disabled" id = "scores" onclick="multiCall()" disabled>Stand</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
+			console.log(tableIndexRnd);
+			
+			//Input Data to Table
+			for (i = 0; i < tableIndexRnd.length; i++) {
+				x = document.getElementById("newTable").innerHTML;
+				document.getElementById("newTable").innerHTML = x + tableIndexRnd[i];
+			}
+			closeDialog(0);
+		}
+		
+		function drawCard(deck) {
+			if (deck == 'treasure') {
+				drawer = drawSizeTreasure;
+				cardArr = treasureDeck;
+			}
+			if (deck == 'door') {
+				drawer = drawSizeDoor;
+				cardArr = doorDeck;
+			}
+			//Draw Card from the Deck
+			x = Math.floor((Math.random() * drawer));
+			x = Math.round(x);
+			b = x;
+			x = cardArr[x];
+			cardArr.splice(b, 1);
+			drawer = cardArr.length;
+			return x;
+		}
+		
+		function deal() {
+			//Set Number of Players
+			playersCount = tableIndexRnd.length - 1;
+			console.log('Number of players is : ' + playersCount);
+			//Deal 4 cards
+			for (i = 0;i<tableIndexRnd.length -1;i++) {
+				for (o = 0; o < 4; o++) {						
+					//Draw Card from the Deck						
+					x = drawCard('treasure');
+					y = drawCard('door');
+					console.log('player' + i + ' drew ' + x);
+					console.log('player' + i + ' drew ' + y);
+					hand = 'player' + o + 'Draw';
+					player0Draw.push(x);
+					player0Draw.push(y);
+					console.log('player' + i + 'Draw array is: ' + hand);
+					//document.getElementById(idName + "Draw").innerHTML = playersDrawImg[i];
+					//faceId(xC, idName,0);
+					//z = getScore(idNum, playersScore0);								
+				}
+			}
+			console.log('treasureDeck now contains: ' + treasureDeck);
+			console.log('doorDeck now contains: ' + doorDeck);
+			console.log('Thats ' + trasureDeck.length + ' cards left in treasureDeck');
+			console.log('Thats ' + doorDeck.length + ' cards left in doorDeck');
+		}
+	</script>
+	</body>
+</html>
