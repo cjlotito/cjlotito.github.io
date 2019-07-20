@@ -182,6 +182,17 @@
 				height:100%;
 				border:1px solid black;
 			}
+			
+			.dropbtn3 {
+				background-color: #3498DB;
+				color: white;
+				padding: 16px;
+				font-size: 16px;
+				border: none;
+				position: fixed;
+				bottom: 0;
+				margin-left:141px;
+			}
 
 			
 			/*.centre {
@@ -215,32 +226,54 @@
 		<p>Some text some text some text.</p>
 		</div>
 		
-		<div class="btn-group">
-			<div class="dropup">
-				<button class="dropbtn">Dropup</button>
-				<div class="dropup-content">
-					<a href="#" id="typing" onclick="diagSet(id);">typing</a>
-				</div>
-			</div>
-			<div class="dropup2">
-				<button class="dropbtn2">Dropup 2</button>
-					<div class="dropup-content2">
-						<a href="#">Link 4</a>
-						<a href="#">Link 5</a>
-						<a href="#">Link 6</a>
+		<div id="bottomBar">
+			<div id='btnGrp' class="btn-group">
+				<div class="dropup">
+					<button class="dropbtn">Dropup</button>
+					<div class="dropup-content">
+						<a href="#" id="typing" onclick="diagSet(id);">typing</a>
 					</div>
+				</div>
+				<div class="dropup2">
+					<button class="dropbtn2">Dropup 2</button>
+						<div class="dropup-content2">
+							<a href="#">Link 4</a>
+							<a href="#">Link 5</a>
+							<a href="#">Link 6</a>
+						</div>
+				</div>
 			</div>
 		</div>
 	</body>
 	<script>
 		diag = document.getElementById("prog");
+		function ID(input) {
+			console.log(input);
+			return document.getElementById(input);
+		}
+		
 		function diagSet(id) {
 			console.log(id + ' called diagSet()');
 			if (id == 'typing') {typer();}
 		}
 		
+		function hideShow(id) {
+			console.log(id);
+			status = ID('prog').open;
+			console.log(status);
+			otherS = document.getElementById('prog').open;
+			if (otherS) {
+				id.open = false;
+			} else {
+				id.open = true;
+			}
+		}
+		
 		function typer() {
 			document.getElementById('contents').innerHTML = '<textarea class="work-area" id="myTextarea" style="width:99%;height:93%;resize:none"></textarea>';
+			bar = ID('btnGrp');
+			console.log(bar);
+			bar.innerHTML = bar.innerHTML + '<button class="dropbtn3" onclick="hideShow(' + "prog" + ')">Typer</button>'
 			diag.show();
 		}
 	</script>
