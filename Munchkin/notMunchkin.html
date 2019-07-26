@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en"> 
+	<head> 
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+		<style>
+			body {
+				background-color: #ffffff;	
+			}
+			table, th, td {
+				border: 1px solid black;
+				border-collapse: collapse;
+				text-align: center;
+				height: 20px;
+				width: 15%
+				display: inline-block;
+				font-size: 16px;
+			}
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 10px 10px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 18px;
+				margin: 4px 2px;
+				cursor: pointer;
+			}
+			
+			.disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+			
+			.arena {
+				display:none;
+				margin-right: auto;
+				margin-left: auto;
+				border: 1px solid black;
+				width:25%;
+				min-height:220px;
+				text-align:center;
+				overflow:hidden;
+				background-color:green
+			}
+			.new-game {
+				margin-right: auto;
+				margin-left: auto;
+				width:25%;
+				text-align:center;
+			}
+			players {
+				width:33%;
+				border: 1px solid black;
+				float: left; /* Float the buttons side by side */
+				margin:1px;
+			}
+			stats {
+				margin-right: auto;
+				margin-left: auto;
+				width:100%;
+				text-align:center;
+
+			}
+			p {
+				font-size: 24px;
+
+			}
+			playspace {
+				display:block;
+				margin-right: auto;
+				margin-left: auto;
+				border: 1px solid black;
+				width:100%;
+				min-height:100px;
+				text-align:center;
+				overflow:hidden;
+				background-color:red;
+			}
+		</style>
+		<title>Other TableTop RPG</title> 
+	</head> 
+	<body> 
+		<div id="size" style="height:600px;width:100%;">
+		<dialog id="mainDialog"></dialog>
+		<p style ="text-align:center"></p>
+		<p id="card" style ="text-align:center" ></p>
+		
+		<div id = 'arena' class='arena'></div>
+		
+		<div id="newTable" style="width:100%">
+			<div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div>
+		</div>
+		
+		<table id="devTable" style="width:100%" onclick="devShow(id)">
+			<td id='devCell' colspan="5" style="visibility:hidden">Dev Panel<br><button class="button" id = "enableAll" onclick="enable()">Enable All Buttons</button></td>
+		</table>
+		
+		</div>
+	<script>
+		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [];player1Draw = [];player2Draw = [];player3Draw = [];player4Draw = [];player5Draw = [];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw];
+		
+		
+		colors = ['#7B1E0B','#099709','#091897','#F7900D','#00C5AD','#210090','#8E2AF7','#000000'];
+		//['Monster Name', Damage, Reward, Weakness, Class, attack] (attack hit,spell,defend,run)
+		monsterDeck = [['Blob0',30,40,0],['Blob1',30,40,0],['Blob2',30,40,0],['Blob3',30,40,0],['Blob4',30,40,0],['Blob5',30,40,0],['Blob6',30,40,0],['Blob7',30,40,0],['Blob8',30,40,0],['Blob9',30,40,0],['Blob10',30,40,0],['Blob11',30,40,0],['Blob12',30,40,0],['Blob13',30,40,0],['Blob14',30,40,0],['Blob15',30,40,0],['Blob16',30,40,0],['Blob17',30,40,0],['Blob18',30,40,0],['Blob19',30,40,0],['Blob20',30,40,0],['Blob21',30,40,0],['Blob22',30,40,0],['Blob23',30,40,0]];
+		//['Weapon Name', type, Damage,Reward,Weakness,ClassLimiter,Special]  (weaponType none, sword, broad, axe, wand) (weakness none,fire,wind,ice,dark,metal) (ClassLimiter none,elf,dwarf,giant) (special none,fire,wind,ice,dark,metal)
+		weaponDeck = [['hammer0',10,10,0,0,0],['hammer1',10,10,0,0,0],['hammer2',10,10,0,0,0],['hammer3',10,10,0,0,0],['hammer4',10,10,0,0,0],['hammer5',10,10,0,0,0],['hammer6',10,10,0,0,0],['hammer7',10,10,0,0,0],['hammer8',10,10,0,0,0],['hammer9',10,10,0,0,0],['hammer10',10,10,0,0,0],['hammer11',10,10,0,0,0],['hammer12',10,10,0,0,0],['hammer13',10,10,0,0,0],['hammer14',10,10,0,0,0],['hammer15',10,10,0,0,0],['hammer16',10,10,0,0,0],['hammer17',10,10,0,0,0],['hammer18',10,10,0,0,0],['hammer19',10,10,0,0,0],['hammer20',10,10,0,0,0],['hammer21',10,10,0,0,0],['hammer22',10,10,0,0,0],['hammer23',10,10,0,0,0],['hammer24',10,10,0,0,0],['hammer25',10,10,0,0,0],['hammer26',10,10,0,0,0],['hammer27',10,10,0,0,0],['hammer28',10,10,0,0,0],['hammer29',10,10,0,0,0],['hammer30',10,10,0,0,0]];
+		//['Treasure Name', value]
+		treasureDeck = [['Gold Coins0', 100],['Gold Coins1', 100],['Gold Coins2', 100],['Gold Coins3', 100],['Gold Coins4', 100],['Gold Coins5', 100],['Gold Coins6', 100],['Gold Coins7', 100],['Gold Coins8', 100],['Gold Coins9', 100],['Gold Coins10', 100],['Gold Coins11', 100],['Gold Coins12', 100],['Gold Coins13', 100],['Gold Coins14', 100],['Gold Coins15', 100],['Gold Coins16', 100],['Gold Coins17', 100],['Gold Coins18', 100],['Gold Coins19', 100],['Gold Coins20', 100],['Gold Coins21', 100],['Gold Coins22', 100],['Gold Coins23', 100],['Gold Coins24', 100],['Gold Coins25', 100],['Gold Coins26', 100],['Gold Coins27', 100],['Gold Coins28', 100],['Gold Coins29', 100],['Gold Coins30', 100]];
+		
+		drawSizemonster = monsterDeck.length -1;drawSizeTreasure = treasureDeck.length-1;drawSizeweapon = weaponDeck.length-1;
+		
+		function tester(id) {
+			//Tester Function for Buttons and ids
+			console.log('you clicked: ' + id);
+		}
+			
+		function openDialog(dCase, id, which) {
+			//Change Dialog HTML and open dialog while passing data
+			//Get idNum
+			if (id != null) {
+				idNum = id.substring(6, 7);
+				console.log('idNum is : ' + idNum);
+			}
+			
+			//Player Select Dialog
+			if (dCase == 0)  {
+				dWin = 'mainDialog';
+				dlog = document.getElementById(dWin);
+				document.getElementById(dWin).innerHTML = '<select id="playerNum" size="5"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><br><button class="button" onclick="playerSelect()">Start</button>';
+			}
+			dlog.show();
+		}
+		
+		function closeDialog(dCase, id, which) {
+			//Call next function and close dialog
+			//Get idNum
+			if (id != null) {
+				idNum = id.substring(6, 7);
+				console.log('idNum is : ' + idNum);
+			}
+			
+			//Generic Close
+			if (dCase == 0) {
+				dlog.close();
+			}
+		}
+		
+		function disEnabler(id, btn) {
+			theBtn = id + btn;
+			btnStatus = document.getElementById(theBtn).className;
+			console.log('btnStatus is: ' + btnStatus);
+			if (btnStatus == 'button disabled') {
+				document.getElementById(theBtn).className = 'button';
+				document.getElementById(theBtn).disabled = false;
+			} else if (btnStatus == 'button') {
+				document.getElementById(theBtn).className = 'button disabled';
+				document.getElementById(theBtn).disabled = true;
+			}
+		}
+		
+		function colorPick() {
+			len = colors.length;
+			rnd = Math.floor(Math.random() * len);
+			x = colors[rnd];
+			colors.splice(rnd, 1);
+			return x;
+		}
+		
+		function checkClass() {
+			console.log('checking class');
+			for (i=0;i<playerStats.length;i++) {
+				console.log('player' + i + ' class is: ' + playerStats[i][6]);
+				if (playerStats[i][6] == 0) {
+					document.getElementById('player' + i + 'Class').innerHTML = 'Human';
+				}
+			}
+		}
+		
+		function playerSelect() {
+			//Setup Player Table
+			document.getElementById("newTable").innerHTML = "";
+			var x = document.getElementById("playerNum").value;
+			tableIndex = [];
+			
+			//Put Player Info In Table
+			for (i = 0; i < x; i++) {
+				c = colorPick();
+				playerStats[i] = ['player' + i , 0, 0, 0, 0, 0, 0, c];
+				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" id="player' + i + 'Name">' + playerStats[i][0] + '</div><div style="margin-left:33%;" id="player' + i + 'Controls"<button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" disabled>Draw Monster</button></div></div>');
+				
+				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" style="color:' +playerStats[i][7] + ';width:50%;float:left;border-right:1px solid black" id="player0Name"><h1><u>' +playerStats[i][0] + '</u></h1></div><div class="stats" id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:50%; float:right;"><h1>' + playerStats[i][6] + '</h1></div><div class="stats" id = "player' + i + 'Lvl" style="color:' +playerStats[i][7] + ';width:100%;border:1px solid black;">' + playerStats[i][1] + '</div><div class="stats" id = "player' + i + 'Class"><h1 style="color:' +playerStats[i][7] + ';">' + playerStats[i][2] + '</h1></div><div class="stats" id = "player' + i + 'Attack" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Attack Power:</p>' + playerStats[i][4] + '</div><div class="stats" id = "player' + i + 'Defense" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Defense:</p>' + playerStats[i][3] + '</div><div class="stats" id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</div><div style="color:' +playerStats[i][7] + ';margin-left:33%;" id = "player' + i + 'Controls"><button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" style="background-color:' +playerStats[i][7] + ';"disabled>Draw Monster</button></div></div>');
+				
+				tableIndex.push('<players id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:25%;" ><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
+				//player stats ['Name', level, class, armor, attack,weakness,gold]
+			}
+			allDraw.length = i;
+			
+			//Add Headers
+			//document.getElementById("newTable").innerHTML = '<tr id="headers"><th>Headers</th></tr>';
+			
+			//Randomize Player Order
+			for (i = 0; i< x; i++) {
+				len = tableIndex.length;
+				rnd = Math.floor(Math.random() * len);
+				tableIndexRnd.push(tableIndex[rnd]);
+				tableIndex.splice(rnd, 1);
+			}
+			
+			//Add Control Buttons
+			//tableIndexRnd.push('<td id = "controls"  style="width:100%"><button class="button" id = "dealBtn" onclick="deal()">Deal</button><button class="button" id = "monsterBtn" onclick="monster()">Kick Open monster</button><button class="button disabled" id = "restart" onclick="multiRestart()" disabled>Restart</button><button class="button" id = "reset" onclick="multiReset()">Player Reset</button></td>');
+			console.log(tableIndexRnd);
+			
+			//Input Data to Table
+			for (i = 0; i < tableIndexRnd.length; i++) {
+				x = document.getElementById("newTable").innerHTML;
+				document.getElementById("newTable").innerHTML = x + tableIndexRnd[i];
+			}
+			
+			a = document.getElementById('newTable').children.length;
+			
+			for (i=0;i<a;i++) {
+				if (a == 0) console.log('No Players');
+				if (a == 1) document.getElementById('newTable').childNodes[0].style.marginLeft = '33%';
+				if (a == 2) document.getElementById('newTable').childNodes[0].style.marginLeft = '15%';
+				if (a == 3) console.log('Three Columns');
+				if (a == 4) document.getElementById('newTable').childNodes[3].style.marginLeft = '33%';
+				if (a == 5 && i==3) {
+					document.getElementById('newTable').childNodes[i].style.marginLeft = '15%';
+				}
+				if (a == 6) console.log('Three Columns stacked');
+			}
+			closeDialog(0);
+			document.getElementById('arena').style.display = 'block';
+			disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'MonsterBtn');
+			disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'WpnBtn');
+			checkClass();
+			deal();
+		}
+		
+		function drawCard(deck) {
+			if (deck == 'treasure') {
+				drawer = drawSizeTreasure;
+				cardArr = treasureDeck;
+			}
+			if (deck == 'monster') {
+				drawer = drawSizemonster;
+				cardArr = monsterDeck;
+			}
+			if (deck == 'weapon') {
+				drawer = drawSizeweapon;
+				cardArr = weaponDeck;
+			}
+			//Draw Card from the Deck
+			x = Math.floor((Math.random() * drawer));
+			console.log('drawer is: ' + drawer + ' x is: ' + x);
+			x = Math.round(x);
+			b = x;
+			x = cardArr[x];
+			console.log('player drew: ' + x);
+			cardArr.splice(b, 1);
+			drawer = cardArr.length;
+			return x;
+		}
+		
+		function deal() {
+			//Set Number of Players
+			playersCount = tableIndexRnd.length;
+			console.log('Number of players is : ' + playersCount);
+			//Deal 4 cards
+			for (i = 0;i<tableIndexRnd.length;i++) {
+				for (o = 0; o < 4; o++) {						
+					//Draw Card from the Deck
+					hand = allDraw[i];
+					x = drawCard('treasure');
+					hand.push(x);
+					y = drawCard('monster');
+					hand.push(y);
+					//console.log('treasure is: ' + x + ' monster is: ' + y);
+					drawSizemonster = monsterDeck.length -1;drawSizeTreasure = treasureDeck.length-1;
+					//document.getElementById(idName + "Draw").innerHTML = playersDrawImg[i];
+					//faceId(xC, idName,0);
+					//z = getScore(idNum, playersScore0);								
+				}
+			}
+			for (i = 0;i<tableIndexRnd.length;i++) {
+				for (o=0;o<allDraw[i].length;o++) {
+					console.log('player' + i + ' has ' + allDraw[i][o]);
+					var div = document.createElement("DIV");
+					div.id = "player" + i + 'Card' + o;
+					div.style.border = "1px solid black";
+					div.style.width = '20%';
+					div.style.height = '50px';
+					div.style.float = 'left';
+					div.style.textAlign = 'center';
+					div.onclick = function() {tester(this.id)};
+					div.innerHTML = allDraw[i][o];
+					document.getElementById('player' + i + 'Table').appendChild(div);
+
+				}
+			}
+			console.log('treasureDeck now contains: ' + treasureDeck);
+			console.log('monsterDeck now contains: ' + monsterDeck);
+			console.log('Thats ' + treasureDeck.length + ' cards left in treasureDeck');
+			console.log('Thats ' + monsterDeck.length + ' cards left in monsterDeck');
+		}
+		
+		function monster(id) {
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			x = drawCard('monster');
+			//console.log(id + ' drew ' + x);
+		}
+		
+		function shop(id) {
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			x = drawCard('weapon');
+			var div = document.createElement("DIV");
+			div.id = "player" + idNum + 'Card' + o;
+			div.style.border = "1px solid black";
+			div.style.width = '20%';
+			div.style.height = '50px';
+			div.style.float = 'left';
+			div.style.textAlign = 'center';
+			div.onclick = function() {tester(this.id)};
+			div.innerHTML = x;
+			document.getElementById('player' + idNum + 'Table').appendChild(div);
+		}
+	</script>
+	</body>
+</html>
