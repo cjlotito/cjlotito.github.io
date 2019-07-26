@@ -73,7 +73,7 @@
 				margin-left: auto;
 				border: 1px solid black;
 				width:100%;
-				min-height:100px;
+				min-height:200px;
 				text-align:center;
 				overflow:hidden;
 				background-color:red;
@@ -103,12 +103,12 @@
 		
 		
 		colors = ['#7B1E0B','#099709','#091897','#F7900D','#00C5AD','#210090','#8E2AF7','#000000'];
-		//['Monster Name', Damage, Reward, Weakness, Class, attack] (attack hit,spell,defend,run)
-		monsterDeck = [['Blob0',30,40,0],['Blob1',30,40,0],['Blob2',30,40,0],['Blob3',30,40,0],['Blob4',30,40,0],['Blob5',30,40,0],['Blob6',30,40,0],['Blob7',30,40,0],['Blob8',30,40,0],['Blob9',30,40,0],['Blob10',30,40,0],['Blob11',30,40,0],['Blob12',30,40,0],['Blob13',30,40,0],['Blob14',30,40,0],['Blob15',30,40,0],['Blob16',30,40,0],['Blob17',30,40,0],['Blob18',30,40,0],['Blob19',30,40,0],['Blob20',30,40,0],['Blob21',30,40,0],['Blob22',30,40,0],['Blob23',30,40,0]];
-		//['Weapon Name', type, Damage,Reward,Weakness,ClassLimiter,Special]  (weaponType none, sword, broad, axe, wand) (weakness none,fire,wind,ice,dark,metal) (ClassLimiter none,elf,dwarf,giant) (special none,fire,wind,ice,dark,metal)
-		weaponDeck = [['hammer0',10,10,0,0,0],['hammer1',10,10,0,0,0],['hammer2',10,10,0,0,0],['hammer3',10,10,0,0,0],['hammer4',10,10,0,0,0],['hammer5',10,10,0,0,0],['hammer6',10,10,0,0,0],['hammer7',10,10,0,0,0],['hammer8',10,10,0,0,0],['hammer9',10,10,0,0,0],['hammer10',10,10,0,0,0],['hammer11',10,10,0,0,0],['hammer12',10,10,0,0,0],['hammer13',10,10,0,0,0],['hammer14',10,10,0,0,0],['hammer15',10,10,0,0,0],['hammer16',10,10,0,0,0],['hammer17',10,10,0,0,0],['hammer18',10,10,0,0,0],['hammer19',10,10,0,0,0],['hammer20',10,10,0,0,0],['hammer21',10,10,0,0,0],['hammer22',10,10,0,0,0],['hammer23',10,10,0,0,0],['hammer24',10,10,0,0,0],['hammer25',10,10,0,0,0],['hammer26',10,10,0,0,0],['hammer27',10,10,0,0,0],['hammer28',10,10,0,0,0],['hammer29',10,10,0,0,0],['hammer30',10,10,0,0,0]];
-		//['Treasure Name', value]
-		treasureDeck = [['Gold Coins0', 100],['Gold Coins1', 100],['Gold Coins2', 100],['Gold Coins3', 100],['Gold Coins4', 100],['Gold Coins5', 100],['Gold Coins6', 100],['Gold Coins7', 100],['Gold Coins8', 100],['Gold Coins9', 100],['Gold Coins10', 100],['Gold Coins11', 100],['Gold Coins12', 100],['Gold Coins13', 100],['Gold Coins14', 100],['Gold Coins15', 100],['Gold Coins16', 100],['Gold Coins17', 100],['Gold Coins18', 100],['Gold Coins19', 100],['Gold Coins20', 100],['Gold Coins21', 100],['Gold Coins22', 100],['Gold Coins23', 100],['Gold Coins24', 100],['Gold Coins25', 100],['Gold Coins26', 100],['Gold Coins27', 100],['Gold Coins28', 100],['Gold Coins29', 100],['Gold Coins30', 100]];
+		//[Card Identifier, 'Monster Name', Damage, Reward, Weakness, Class, attack] (attack hit,spell,defend,run)
+		monsterDeck = [[0, 'Blob0',30,40,0],[0, 'Blob1',30,40,0],[0, 'Blob2',30,40,0],[0, 'Blob3',30,40,0],[0, 'Blob4',30,40,0],[0, 'Blob5',30,40,0],[0, 'Blob6',30,40,0],[0, 'Blob7',30,40,0],[0, 'Blob8',30,40,0],[0, 'Blob9',30,40,0],[0, 'Blob10',30,40,0],[0, 'Blob11',30,40,0],[0, 'Blob12',30,40,0],[0, 'Blob13',30,40,0],[0, 'Blob14',30,40,0],[0, 'Blob15',30,40,0],[0, 'Blob16',30,40,0],[0, 'Blob17',30,40,0],[0, 'Blob18',30,40,0],[0, 'Blob19',30,40,0],[0, 'Blob20',30,40,0],[0, 'Blob21',30,40,0],[0, 'Blob22',30,40,0],[0, 'Blob23',30,40,0],[0, 'Blob24',30,40,0],[0, 'Blob25',30,40,0],[0, 'Blob26',30,40,0],[0, 'Blob27',30,40,0],[0, 'Blob28',30,40,0],[0, 'Blob29',30,40,0],[0, 'Blob30',30,40,0]];
+		//[Card Identifier, 'Weapon Name', type, Damage,Reward,Weakness,ClassLimiter,Special]  (weaponType none, sword, broad, axe, wand) (weakness none,fire,wind,ice,dark,metal) (ClassLimiter none,elf,dwarf,giant) (special none,fire,wind,ice,dark,metal)
+		weaponDeck = [[1, 'hammer0',10,10,0,0,0],[1, 'hammer1',10,10,0,0,0],[1, 'hammer2',10,10,0,0,0],[1, 'hammer3',10,10,0,0,0],[1, 'hammer4',10,10,0,0,0],[1, 'hammer5',10,10,0,0,0],[1, 'hammer6',10,10,0,0,0],[1, 'hammer7',10,10,0,0,0],[1, 'hammer8',10,10,0,0,0],[1, 'hammer9',10,10,0,0,0],[1, 'hammer10',10,10,0,0,0],[1, 'hammer11',10,10,0,0,0],[1, 'hammer12',10,10,0,0,0],[1, 'hammer13',10,10,0,0,0],[1, 'hammer14',10,10,0,0,0],[1, 'hammer15',10,10,0,0,0],[1, 'hammer16',10,10,0,0,0],[1, 'hammer17',10,10,0,0,0],[1, 'hammer18',10,10,0,0,0],[1, 'hammer19',10,10,0,0,0],[1, 'hammer20',10,10,0,0,0],[1, 'hammer21',10,10,0,0,0],[1, 'hammer22',10,10,0,0,0],[1, 'hammer23',10,10,0,0,0],[1, 'hammer24',10,10,0,0,0],[1, 'hammer25',10,10,0,0,0],[1, 'hammer26',10,10,0,0,0],[1, 'hammer27',10,10,0,0,0],[1, 'hammer28',10,10,0,0,0],[1, 'hammer29',10,10,0,0,0],[1, 'hammer30',10,10,0,0,0]];
+		//[Card Identifier, 'Treasure Name', value]
+		treasureDeck = [[2, 'Gold Coins0', 100],[2, 'Gold Coins1', 100],[2, 'Gold Coins2', 100],[2, 'Gold Coins3', 100],[2, 'Gold Coins4', 100],[2, 'Gold Coins5', 100],[2, 'Gold Coins6', 100],[2, 'Gold Coins7', 100],[2, 'Gold Coins8', 100],[2, 'Gold Coins9', 100],[2, 'Gold Coins10', 100],[2, 'Gold Coins11', 100],[2, 'Gold Coins12', 100],[2, 'Gold Coins13', 100],[2, 'Gold Coins14', 100],[2, 'Gold Coins15', 100],[2, 'Gold Coins16', 100],[2, 'Gold Coins17', 100],[2, 'Gold Coins18', 100],[2, 'Gold Coins19', 100],[2, 'Gold Coins20', 100],[2, 'Gold Coins21', 100],[2, 'Gold Coins22', 100],[2, 'Gold Coins23', 100],[2, 'Gold Coins24', 100],[2, 'Gold Coins25', 100],[2, 'Gold Coins26', 100],[2, 'Gold Coins27', 100],[2, 'Gold Coins28', 100],[2, 'Gold Coins29', 100],[2, 'Gold Coins30', 100]];
 		
 		drawSizemonster = monsterDeck.length -1;drawSizeTreasure = treasureDeck.length-1;drawSizeweapon = weaponDeck.length-1;
 		
@@ -295,7 +295,7 @@
 					div.style.height = '50px';
 					div.style.float = 'left';
 					div.style.textAlign = 'center';
-					div.onclick = function() {tester(this.id)};
+					div.onclick = function() {cardId(this.id)};
 					div.innerHTML = allDraw[i][o];
 					document.getElementById('player' + i + 'Table').appendChild(div);
 
@@ -318,6 +318,8 @@
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
 			x = drawCard('weapon');
+			hand = allDraw[idNum];
+			hand.push(x);
 			var div = document.createElement("DIV");
 			div.id = "player" + idNum + 'Card' + o;
 			div.style.border = "1px solid black";
@@ -325,9 +327,19 @@
 			div.style.height = '50px';
 			div.style.float = 'left';
 			div.style.textAlign = 'center';
-			div.onclick = function() {tester(this.id)};
+			div.onclick = function() {cardId(this.id)};
 			div.innerHTML = x;
 			document.getElementById('player' + idNum + 'Table').appendChild(div);
+		}
+		
+		function cardId(id) {
+			console.log('you clicked ' + id);
+			pId = id.substring(6,7);
+			cId = id.substring(11,12);
+			console.log('pId is: ' + pId + ' cId is: ' + cId);
+			if (allDraw[pId][cId][0] == 0) console.log('monster');
+			if (allDraw[pId][cId][0] == 1) console.log('weapon');
+			if (allDraw[pId][cId][0] == 2) console.log('treasure');
 		}
 	</script>
 	</body>
