@@ -78,9 +78,12 @@
 				overflow:hidden;
 				background-color:red;
 			}
-                        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+			.cPlayers {
+
+			}
+			/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
 			@media screen and (max-width:750px) {
-				players {
+				.cPlayers {
 					width: 100%;
 				}
 			}
@@ -95,8 +98,7 @@
 		
 		<div id = 'arena' class='arena'></div>
 		
-		<div id="newTable" style="width:100%">
-			<div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div>
+		<div id="newTable" style="width:100%"><div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div>
 		</div>
 		
 		<table id="devTable" style="width:100%" onclick="devShow(id)">
@@ -105,6 +107,7 @@
 		
 		</div>
 	<script>
+		window.addEventListener("resize", playerArrange);
 		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [];player1Draw = [];player2Draw = [];player3Draw = [];player4Draw = [];player5Draw = [];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw];
 		
 		
@@ -199,7 +202,7 @@
 				
 				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" style="color:' +playerStats[i][7] + ';width:50%;float:left;border-right:1px solid black" id="player0Name"><h1><u>' +playerStats[i][0] + '</u></h1></div><div class="stats" id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:50%; float:right;"><h1>' + playerStats[i][6] + '</h1></div><div class="stats" id = "player' + i + 'Lvl" style="color:' +playerStats[i][7] + ';width:100%;border:1px solid black;">' + playerStats[i][1] + '</div><div class="stats" id = "player' + i + 'Class"><h1 style="color:' +playerStats[i][7] + ';">' + playerStats[i][2] + '</h1></div><div class="stats" id = "player' + i + 'Attack" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Attack Power:</p>' + playerStats[i][4] + '</div><div class="stats" id = "player' + i + 'Defense" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Defense:</p>' + playerStats[i][3] + '</div><div class="stats" id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</div><div style="color:' +playerStats[i][7] + ';margin-left:33%;" id = "player' + i + 'Controls"><button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" style="background-color:' +playerStats[i][7] + ';"disabled>Draw Monster</button></div></div>');
 				
-				tableIndex.push('<players id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:25%;" ><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
+				tableIndex.push('<players class="cPlayers" id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:25%;" ><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
 				//player stats ['Name', level, class, armor, attack,weakness,gold]
 			}
 			allDraw.length = i;
@@ -227,23 +230,45 @@
 			
 			a = document.getElementById('newTable').children.length;
 			
-			for (i=0;i<a;i++) {
-				if (a == 0) console.log('No Players');
-				if (a == 1) document.getElementById('newTable').childNodes[0].style.marginLeft = '33%';
-				if (a == 2) document.getElementById('newTable').childNodes[0].style.marginLeft = '15%';
-				if (a == 3) console.log('Three Columns');
-				if (a == 4) document.getElementById('newTable').childNodes[3].style.marginLeft = '33%';
-				if (a == 5 && i==3) {
-					document.getElementById('newTable').childNodes[i].style.marginLeft = '15%';
-				}
-				if (a == 6) console.log('Three Columns stacked');
-			}
+			//Position Players
+			playerArrange();
 			closeDialog(0);
 			document.getElementById('arena').style.display = 'block';
 			disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'MonsterBtn');
 			disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'WpnBtn');
 			checkClass();
 			deal();
+		}
+		
+		function playerArrange() {
+			//console.log('rearranging players window.innerWidth is ' + window.innerWidth);
+			a = document.getElementById('newTable').children.length;
+			//Position Players
+			if (window.innerWidth > 1230) {
+				for (i=0;i<a;i++) {
+					if (a == 0) console.log('No Players');
+					else if (a == 1) document.getElementById('newTable').childNodes[0].style.marginLeft = '33%';
+					else if (a == 2) document.getElementById('newTable').childNodes[0].style.marginLeft = '15%';
+					else if (a == 3) console.log('Three Columns');
+					else if (a == 4) document.getElementById('newTable').childNodes[3].style.marginLeft = '33%';
+					else if (a == 5 && i==3) {
+						document.getElementById('newTable').childNodes[i].style.marginLeft = '15%';
+					}
+					else if (a == 6) console.log('Three Columns stacked');
+				}
+			} else {
+				for (i=0;i<a;i++) {
+					if (a == 0) console.log('No Players');
+					else if (a == 1) document.getElementById('newTable').childNodes[0].style.marginLeft = '33%';
+					else if (a == 2) document.getElementById('newTable').childNodes[0].style.marginLeft = '15%';
+					else if (a == 3) console.log('Three Columns');
+					else if (a == 4) document.getElementById('newTable').childNodes[3].style.marginLeft = '0%';
+					else if (a == 5 && i==3) {
+						document.getElementById('newTable').childNodes[i].style.marginLeft = '0%';
+					}
+					else if (a == 6) console.log('Three Columns stacked');
+				}
+			}
 		}
 		
 		function drawCard(deck) {
@@ -271,6 +296,21 @@
 			return x;
 		}
 		
+		function cardPlace(id, x) {
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			var div = document.createElement("DIV");
+			div.id = "player" + idNum + 'Card' + o;
+			div.style.border = "1px solid black";
+			div.style.width = '20%';
+			div.style.height = '50px';
+			div.style.float = 'left';
+			div.style.textAlign = 'center';
+			div.onclick = function() {cardId(this.id)};
+			div.innerHTML = x;
+			document.getElementById('player' + idNum+ 'Table').appendChild(div);
+		}
+		
 		function deal() {
 			//Set Number of Players
 			playersCount = tableIndexRnd.length;
@@ -293,18 +333,12 @@
 			}
 			for (i = 0;i<tableIndexRnd.length;i++) {
 				for (o=0;o<allDraw[i].length;o++) {
-					console.log('player' + i + ' has ' + allDraw[i][o]);
-					var div = document.createElement("DIV");
-					div.id = "player" + i + 'Card' + o;
-					div.style.border = "1px solid black";
-					div.style.width = '20%';
-					div.style.height = '50px';
-					div.style.float = 'left';
-					div.style.textAlign = 'center';
-					div.onclick = function() {cardId(this.id)};
-					div.innerHTML = allDraw[i][o];
-					document.getElementById('player' + i + 'Table').appendChild(div);
-
+					x = allDraw[i][o];
+					console.log('player' + i + ' has ' + x);
+					sendId = 'player' + i;
+					theId = 'player' + i + 'Card' + o;
+					cardPlace(sendId, x);
+					cardId(theId);
 				}
 			}
 			console.log('treasureDeck now contains: ' + treasureDeck);
@@ -321,31 +355,38 @@
 		}
 		
 		function shop(id) {
+			//ISSUE WITH BUY BUTTON AND CARD COLORING
+			console.log('this is: ' + id);
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
 			x = drawCard('weapon');
 			hand = allDraw[idNum];
 			hand.push(x);
-			var div = document.createElement("DIV");
-			div.id = "player" + idNum + 'Card' + o;
-			div.style.border = "1px solid black";
-			div.style.width = '20%';
-			div.style.height = '50px';
-			div.style.float = 'left';
-			div.style.textAlign = 'center';
-			div.onclick = function() {cardId(this.id)};
-			div.innerHTML = x;
-			document.getElementById('player' + idNum + 'Table').appendChild(div);
+			cardPlace(idName, x);
+			cardNum = allDraw[idNum].length - 2;
+			theId = idName + 'Card' + cardNum;
+			console.log('theId is ' + theId);
+			cardId(theId);
+			drawSizeweapon = weaponDeck.length-1;
 		}
 		
 		function cardId(id) {
 			console.log('you clicked ' + id);
+			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
 			cId = id.substring(11,12);
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
-			if (allDraw[pId][cId][0] == 0) console.log('monster');
-			if (allDraw[pId][cId][0] == 1) console.log('weapon');
-			if (allDraw[pId][cId][0] == 2) console.log('treasure');
+			if (allDraw[pId][cId][0] == 0) {
+				console.log('monster');
+				if (id.length)
+				document.getElementById(id).style.backgroundColor = 'blue';
+			} else if (allDraw[pId][cId][0] == 1) {
+				console.log('weapon');
+				document.getElementById(id).style.backgroundColor = 'green';
+			} else if (allDraw[pId][cId][0] == 2) {
+				console.log('treasure');
+				document.getElementById(id).style.backgroundColor = 'yellow';
+			}
 		}
 	</script>
 	</body>
