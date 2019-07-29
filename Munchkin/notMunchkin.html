@@ -296,11 +296,13 @@
 			return x;
 		}
 		
-		function cardPlace(id, x) {
+		function cardPlace(id, x, cardNum) {
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
 			var div = document.createElement("DIV");
-			div.id = "player" + idNum + 'Card' + o;
+			console.log('cardPlace cardNum is: ' + cardNum.length);
+			if (cardNum < 10) div.id = "player" + idNum + 'Card0' + cardNum;
+			else div.id = "player" + idNum + 'Card' + cardNum;
 			div.style.border = "1px solid black";
 			div.style.width = '20%';
 			div.style.height = '50px';
@@ -331,13 +333,14 @@
 					//z = getScore(idNum, playersScore0);								
 				}
 			}
+			//Place Card and Add Color
 			for (i = 0;i<tableIndexRnd.length;i++) {
 				for (o=0;o<allDraw[i].length;o++) {
 					x = allDraw[i][o];
 					console.log('player' + i + ' has ' + x);
 					sendId = 'player' + i;
-					theId = 'player' + i + 'Card' + o;
-					cardPlace(sendId, x);
+					theId = 'player' + i + 'Card0' + o;
+					cardPlace(sendId, x, o);
 					cardId(theId);
 				}
 			}
@@ -355,16 +358,20 @@
 		}
 		
 		function shop(id) {
-			//ISSUE WITH BUY BUTTON AND CARD COLORING
 			console.log('this is: ' + id);
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
 			x = drawCard('weapon');
+			console.log(x)
 			hand = allDraw[idNum];
+			console.log(hand);
 			hand.push(x);
-			cardPlace(idName, x);
-			cardNum = allDraw[idNum].length - 2;
-			theId = idName + 'Card' + cardNum;
+			cardNum = allDraw[idNum].length - 1;
+			cardPlace(idName, x, cardNum);
+			//cardNum = allDraw[idNum].length - 1;
+			console.log(cardNum);
+			if (cardNum < 10) theId = idName + 'Card0' + cardNum;
+			else theId = idName + 'Card' + cardNum;
 			console.log('theId is ' + theId);
 			cardId(theId);
 			drawSizeweapon = weaponDeck.length-1;
@@ -374,11 +381,10 @@
 			console.log('you clicked ' + id);
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
-			cId = id.substring(11,12);
+			cId = parseInt(id.substring(11,13));
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
 			if (allDraw[pId][cId][0] == 0) {
 				console.log('monster');
-				if (id.length)
 				document.getElementById(id).style.backgroundColor = 'blue';
 			} else if (allDraw[pId][cId][0] == 1) {
 				console.log('weapon');
