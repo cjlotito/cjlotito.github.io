@@ -330,8 +330,8 @@
 			document.getElementById(toRemove).remove();
 			allDraw[idNum].splice(cardNum, 1);
 			//Issues Splicin/Removing the Card changing others to the wrong Type aka treasure becomes monster
+			// try using this for list document.getElementById('Table').children.length
 			for (o=0;o<allDraw[idNum].length;o++) {
-				x = allDraw[idNum][o];
 				if (o < 10) theId = 'player' + idNum + 'Card0' + o;
 				else theId = 'player' + idNum + 'Card' + o;
 				cardId(theId);
@@ -420,17 +420,17 @@
 			console.log('you clicked ' + id);
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
-			cId = parseInt(id.substring(11,13));
+			cId = id.substring(11,13);
 			//Cannot keep 2 digits in cId - maybe just switch to 10 and up
-			if (cId < 10) cId = ("0" + cId).slice(-2);
+			//if (cId < 10) cId = ("0" + cId).slice(-2);
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
-			if (allDraw[pId][cId][0] == 0) {
+			if (allDraw[pId][parseInt(cId)][0] == 0) {
 				console.log('monster');
 				document.getElementById(id).style.backgroundColor = 'blue';
-			} else if (allDraw[pId][cId][0] == 1) {
+			} else if (allDraw[pId][parseInt(cId)][0] == 1) {
 				console.log('weapon');
 				document.getElementById(id).style.backgroundColor = 'green';
-			} else if (allDraw[pId][cId][0] == 2) {
+			} else if (allDraw[pId][parseInt(cId)][0] == 2) {
 				console.log('treasure');
 				document.getElementById(id).style.backgroundColor = 'yellow';
 			}
