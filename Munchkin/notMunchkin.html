@@ -188,6 +188,10 @@
 			}
 		}
 		
+		function updater(element, toChange) {
+			document.getElementById(element).innerHTML = toChange;
+		}
+		
 		function playerSelect() {
 			//Setup Player Table
 			document.getElementById("newTable").innerHTML = "";
@@ -198,11 +202,12 @@
 			for (i = 0; i < x; i++) {
 				c = colorPick();
 				playerStats[i] = ['player' + i , 0, 0, 0, 0, 0, 0, c];
+				//player stats ['Name', level, class, armor, attack,weakness,gold, color]
 				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" id="player' + i + 'Name">' + playerStats[i][0] + '</div><div style="margin-left:33%;" id="player' + i + 'Controls"<button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" disabled>Draw Monster</button></div></div>');
 				
 				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" style="color:' +playerStats[i][7] + ';width:50%;float:left;border-right:1px solid black" id="player0Name"><h1><u>' +playerStats[i][0] + '</u></h1></div><div class="stats" id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:50%; float:right;"><h1>' + playerStats[i][6] + '</h1></div><div class="stats" id = "player' + i + 'Lvl" style="color:' +playerStats[i][7] + ';width:100%;border:1px solid black;">' + playerStats[i][1] + '</div><div class="stats" id = "player' + i + 'Class"><h1 style="color:' +playerStats[i][7] + ';">' + playerStats[i][2] + '</h1></div><div class="stats" id = "player' + i + 'Attack" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Attack Power:</p>' + playerStats[i][4] + '</div><div class="stats" id = "player' + i + 'Defense" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Defense:</p>' + playerStats[i][3] + '</div><div class="stats" id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</div><div style="color:' +playerStats[i][7] + ';margin-left:33%;" id = "player' + i + 'Controls"><button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" style="background-color:' +playerStats[i][7] + ';"disabled>Draw Monster</button></div></div>');
 				
-				tableIndex.push('<players class="cPlayers" id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:25%;" ><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
+				tableIndex.push('<players class="cPlayers" id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p id = "player' + i + 'GoldNum" style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:25%;" ><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
 				//player stats ['Name', level, class, armor, attack,weakness,gold]
 			}
 			allDraw.length = i;
@@ -308,9 +313,42 @@
 			div.style.height = '50px';
 			div.style.float = 'left';
 			div.style.textAlign = 'center';
-			div.onclick = function() {cardId(this.id)};
+			div.onclick = function() {cardIdAct(this.id)};
 			div.innerHTML = x;
 			document.getElementById('player' + idNum+ 'Table').appendChild(div);
+		}
+		
+		function removeCard(id, cardNum) {
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			if (cardNum < 10) {
+				console.log('less thn 10');
+				cardNum = '0' + cardNum;
+			}
+			toRemove = idName + 'Card' + cardNum;
+			console.log('toRemove is: ' + toRemove);
+			document.getElementById(toRemove).remove();
+			allDraw[idNum].splice(cardNum, 1);
+			//Issues Splicin/Removing the Card changing others to the wrong Type aka treasure becomes monster
+			for (o=0;o<allDraw[idNum].length -1;o++) {
+				x = allDraw[idNum][o];
+				theId = 'player' + idNum + 'Card0' + o;
+				cardId(theId);
+			}
+			//arrangeCards();
+		}
+		
+		function arrangeCards() {
+			for (i = 0;i<tableIndexRnd.length;i++) {
+				for (o=0;o<allDraw[i].length;o++) {
+					x = allDraw[i][o];
+					console.log('player' + i + ' has ' + x);
+					sendId = 'player' + i;
+					theId = 'player' + i + 'Card0' + o;
+					cardPlace(sendId, x, o);
+					cardId(theId);
+				}
+			}
 		}
 		
 		function deal() {
@@ -393,6 +431,42 @@
 				console.log('treasure');
 				document.getElementById(id).style.backgroundColor = 'yellow';
 			}
+		}
+		
+		function cardIdAct(id) {
+			console.log('you clicked ' + id);
+			idName = id.substring(0, 7);
+			pId = id.substring(6,7);
+			cId = parseInt(id.substring(11,13));
+			console.log('pId is: ' + pId + ' cId is: ' + cId);
+			if (allDraw[pId][cId][0] == 0) {
+				console.log('monster');
+				
+			} else if (allDraw[pId][cId][0] == 1) {
+				console.log('weapon');
+				
+			} else if (allDraw[pId][cId][0] == 2) {
+				console.log('treasure');
+				cashIn(id);
+			}
+		}
+		
+		function cashIn(id) {
+			console.log('Welcome to cashIn ' + id);
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			cId = parseInt(id.substring(11,13));
+			console.log('cId is: ' + cId);
+			element = idName + 'GoldNum';
+			console.log(element);
+			pGold = parseInt(playerStats[idNum][6]);
+			cGold = parseInt(allDraw[idNum][cId][2]);
+			goldIs = pGold + cGold;
+			console.log(goldIs);
+			updater(element, goldIs);
+			//Need to Remove Card and Rearrange others
+			removeCard(idName, cId);
+			playerStats[idNum][6] = goldIs;
 		}
 	</script>
 	</body>
