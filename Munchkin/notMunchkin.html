@@ -327,13 +327,15 @@
 			//Says Deck.includes is not a function...can't figure out why
 			console.log('identifier is: ' + identifier);
 			newIdent = '"' + identifier + '"';
-			console.log(newIdent);
-			for (i = 0; i<allDraw[idNum].length;i++) {
+			console.log('newIdent is: ' + newIdent);
+			for (i = 1; i<allDraw[idNum].length;i++) {
 				deck = allDraw[idNum][i];
-				a = deck.includes(newIdent);
+				console.log('deck is: ' + deck);
+				a = allDraw[idNum][i].includes(identifier);
 				if (a) {
-					console.log('found ' + identifier + ' in allDraw[' + idNum + '][' + i +' ]');
+					console.log('found ' + identifier + ' in allDraw[' + idNum + '][' + i +']');
 					toSplice = i;
+					document.getElementById(toRemove).remove();
 				}
 			}
 			allDraw[idNum].splice(toSplice, 1);
@@ -452,34 +454,40 @@
 			pId = id.substring(6,7);
 			cId = parseInt(id.substring(11,13));
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
-			if (allDraw[pId][parseInt(cId)][0] == 0) {
+			aId = 0;
+			for (i = 1; i<allDraw[pId].length - 1;i++) {
+				if (allDraw[pId][i].includes(identifier)) {
+					aId = i;
+				}
+			}
+			if (allDraw[pId][aId][0] == 0) {
 				console.log('monster');
-				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				console.log('allDraw is: ' + allDraw[pId][cId]);
+				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				//console.log('allDraw is: ' + allDraw[pId][cId]);
 				
-			} else if (allDraw[pId][parseInt(cId)][0] == 1) {
+			} else if (allDraw[pId][aId][0] == 1) {
 				console.log('weapon');
-				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				console.log('allDraw is: ' + allDraw[pId][cId]);
+				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				//console.log('allDraw is: ' + allDraw[pId][cId]);
 				
-			} else if (allDraw[pId][parseInt(cId)][0] == 2) {
+			} else if (allDraw[pId][aId][0] == 2) {
 				console.log('treasure');
-				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				console.log('allDraw is: ' + allDraw[pId][cId]);
-				cashIn(id,identifier);
+				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				//console.log('allDraw is: ' + allDraw[pId][cId]);
+				cashIn(id,identifier, aId);
 			}
 		}
 		
-		function cashIn(id,identifier) {
+		function cashIn(id,identifier, aId) {
 			console.log('Welcome to cashIn ' + id);
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
-			cId = parseInt(id.substring(11,13));
-			console.log('cId is: ' + cId);
+			//cId = parseInt(id.substring(11,13));
+			//console.log('cId is: ' + cId);
 			element = idName + 'GoldNum';
 			console.log(element);
 			pGold = parseInt(playerStats[idNum][6]);
-			cGold = parseInt(allDraw[idNum][cId][2]);
+			cGold = parseInt(allDraw[idNum][aId][2]);
 			goldIs = pGold + cGold;
 			console.log(goldIs);
 			updater(element, goldIs);
