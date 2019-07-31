@@ -108,7 +108,7 @@
 		</div>
 	<script>
 		window.addEventListener("resize", playerArrange);
-		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [];player1Draw = [];player2Draw = [];player3Draw = [];player4Draw = [];player5Draw = [];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw];
+		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [0];player1Draw = [0];player2Draw = [0];player3Draw = [0];player4Draw = [0];player5Draw = [0];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw];
 		
 		
 		colors = ['#7B1E0B','#099709','#091897','#F7900D','#00C5AD','#210090','#8E2AF7','#000000'];
@@ -321,6 +321,8 @@
 		function removeCard(id, cardNum) {
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
+			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
+			console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
 			if (cardNum < 10) {
 				console.log('less thn 10');
 				cardNum = '0' + cardNum;
@@ -329,13 +331,25 @@
 			console.log('toRemove is: ' + toRemove);
 			document.getElementById(toRemove).remove();
 			allDraw[idNum].splice(cardNum, 1);
+			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
+			console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
 			//Issues Splicin/Removing the Card changing others to the wrong Type aka treasure becomes monster
-			// try using this for list document.getElementById('Table').children.length
-			for (o=0;o<allDraw[idNum].length;o++) {
+			/*for (o=0;o<document.getElementById(idName + 'Table').children.length -1;o++) {
+				//x = allDraw[idNum][o];
+				cardNo = document.getElementById(idName + 'Table').children[o].id
+				cardNo2 = parseInt(cardNo.substring(11,13));
+				console.log('cardNo is: ' + cardNo + ' cardNo2 is: ' + cardNo2);
+				if (cardNo2 < 10) theId = 'player' + idNum + 'Card0' + cardNo2;
+				else theId = 'player' + idNum + 'Card' + cardNo2;
+				console.log('theId is: ' + theId);
+				cardId(theId);
+			}*/
+			/*for (o=0;o<allDraw[idNum].length;o++) {
+				x = allDraw[idNum][o];
 				if (o < 10) theId = 'player' + idNum + 'Card0' + o;
 				else theId = 'player' + idNum + 'Card' + o;
 				cardId(theId);
-			}
+			}*/
 			//arrangeCards();
 		}
 		
@@ -374,7 +388,7 @@
 			}
 			//Place Card and Add Color
 			for (i = 0;i<tableIndexRnd.length;i++) {
-				for (o=0;o<allDraw[i].length;o++) {
+				for (o=1;o<allDraw[i].length;o++) {
 					x = allDraw[i][o];
 					console.log('player' + i + ' has ' + x);
 					sendId = 'player' + i;
@@ -420,19 +434,22 @@
 			console.log('you clicked ' + id);
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
-			cId = id.substring(11,13);
+			cId = parseInt(id.substring(11,13));
 			//Cannot keep 2 digits in cId - maybe just switch to 10 and up
-			//if (cId < 10) cId = ("0" + cId).slice(-2);
+			if (cId < 10) cId = ("0" + cId).slice(-2);
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
 			if (allDraw[pId][parseInt(cId)][0] == 0) {
-				console.log('monster');
-				document.getElementById(id).style.backgroundColor = 'blue';
+				console.log('Blue monster');
+				console.log('Changed ' + idName + 'Card' + cId + 'from ' + document.getElementById(idName + 'Card' + cId).style.backgroundColor + ' to blue');
+				document.getElementById(idName + 'Card' + cId).style.backgroundColor = 'blue';
 			} else if (allDraw[pId][parseInt(cId)][0] == 1) {
-				console.log('weapon');
-				document.getElementById(id).style.backgroundColor = 'green';
+				console.log('Green weapon');
+				console.log('Changed ' + idName + 'Card' + cId + 'from ' + document.getElementById(idName + 'Card' + cId).style.backgroundColor + ' to Green');
+				document.getElementById(idName + 'Card' + cId).style.backgroundColor = 'green';
 			} else if (allDraw[pId][parseInt(cId)][0] == 2) {
-				console.log('treasure');
-				document.getElementById(id).style.backgroundColor = 'yellow';
+				console.log('Yellow treasure');
+				console.log('Changed ' + idName + 'Card' + cId + 'from ' + document.getElementById(idName + 'Card' + cId).style.backgroundColor + ' to Yellow');
+				document.getElementById(idName + 'Card' + cId).style.backgroundColor = 'yellow';
 			}
 		}
 		
@@ -442,14 +459,17 @@
 			pId = id.substring(6,7);
 			cId = parseInt(id.substring(11,13));
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
-			if (allDraw[pId][cId][0] == 0) {
+			if (allDraw[pId][parseInt(cId)][0] == 0) {
 				console.log('monster');
+				conosle.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
 				
-			} else if (allDraw[pId][cId][0] == 1) {
+			} else if (allDraw[pId][parseInt(cId)][0] == 1) {
 				console.log('weapon');
+				conosle.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
 				
-			} else if (allDraw[pId][cId][0] == 2) {
+			} else if (allDraw[pId][parseInt(cId)][0] == 2) {
 				console.log('treasure');
+				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
 				cashIn(id);
 			}
 		}
