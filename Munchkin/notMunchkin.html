@@ -92,23 +92,15 @@
 	</head> 
 	<body> 
 		<div id="size" style="height:600px;width:100%;">
-		<dialog id="mainDialog"></dialog>
-		<p style ="text-align:center"></p>
-		<p id="card" style ="text-align:center" ></p>
-		
-		<div id = 'arena' class='arena'></div>
-		
-		<div id="newTable" style="width:100%"><div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div>
-		</div>
-		
-		<table id="devTable" style="width:100%" onclick="devShow(id)">
-			<td id='devCell' colspan="5" style="visibility:hidden">Dev Panel<br><button class="button" id = "enableAll" onclick="enable()">Enable All Buttons</button></td>
-		</table>
-		
+			<dialog id="mainDialog"></dialog>
+			<p style ="text-align:center"></p>
+			<p id="card" style ="text-align:center" ></p>
+			<div id = 'arena' class='arena'></div>
+				<div id="newTable" style="width:100%"><div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div></div>
 		</div>
 	<script>
 		window.addEventListener("resize", playerArrange);
-		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [0];player1Draw = [0];player2Draw = [0];player3Draw = [0];player4Draw = [0];player5Draw = [0];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw];
+		var tableIndex = []; tableIndexRnd = []; dlog = ''; playerStats = [];player0Draw = [0];player1Draw = [0];player2Draw = [0];player3Draw = [0];player4Draw = [0];player5Draw = [0];allDraw=[player0Draw, player1Draw,player2Draw,player3Draw,player4Draw,player5Draw]; toFind = '';
 		
 		
 		colors = ['#7B1E0B','#099709','#091897','#F7900D','#00C5AD','#210090','#8E2AF7','#000000'];
@@ -116,8 +108,8 @@
 		monsterDeck = [[0, 'Blob0',30,40,0],[0, 'Blob1',30,40,0],[0, 'Blob2',30,40,0],[0, 'Blob3',30,40,0],[0, 'Blob4',30,40,0],[0, 'Blob5',30,40,0],[0, 'Blob6',30,40,0],[0, 'Blob7',30,40,0],[0, 'Blob8',30,40,0],[0, 'Blob9',30,40,0],[0, 'Blob10',30,40,0],[0, 'Blob11',30,40,0],[0, 'Blob12',30,40,0],[0, 'Blob13',30,40,0],[0, 'Blob14',30,40,0],[0, 'Blob15',30,40,0],[0, 'Blob16',30,40,0],[0, 'Blob17',30,40,0],[0, 'Blob18',30,40,0],[0, 'Blob19',30,40,0],[0, 'Blob20',30,40,0],[0, 'Blob21',30,40,0],[0, 'Blob22',30,40,0],[0, 'Blob23',30,40,0],[0, 'Blob24',30,40,0],[0, 'Blob25',30,40,0],[0, 'Blob26',30,40,0],[0, 'Blob27',30,40,0],[0, 'Blob28',30,40,0],[0, 'Blob29',30,40,0],[0, 'Blob30',30,40,0]];
 		//[Card Identifier, 'Weapon Name', type, Damage,Reward,Weakness,ClassLimiter,Special]  (weaponType none, sword, broad, axe, wand) (weakness none,fire,wind,ice,dark,metal) (ClassLimiter none,elf,dwarf,giant) (special none,fire,wind,ice,dark,metal)
 		weaponDeck = [[1, 'hammer0',10,10,0,0,0],[1, 'hammer1',10,10,0,0,0],[1, 'hammer2',10,10,0,0,0],[1, 'hammer3',10,10,0,0,0],[1, 'hammer4',10,10,0,0,0],[1, 'hammer5',10,10,0,0,0],[1, 'hammer6',10,10,0,0,0],[1, 'hammer7',10,10,0,0,0],[1, 'hammer8',10,10,0,0,0],[1, 'hammer9',10,10,0,0,0],[1, 'hammer10',10,10,0,0,0],[1, 'hammer11',10,10,0,0,0],[1, 'hammer12',10,10,0,0,0],[1, 'hammer13',10,10,0,0,0],[1, 'hammer14',10,10,0,0,0],[1, 'hammer15',10,10,0,0,0],[1, 'hammer16',10,10,0,0,0],[1, 'hammer17',10,10,0,0,0],[1, 'hammer18',10,10,0,0,0],[1, 'hammer19',10,10,0,0,0],[1, 'hammer20',10,10,0,0,0],[1, 'hammer21',10,10,0,0,0],[1, 'hammer22',10,10,0,0,0],[1, 'hammer23',10,10,0,0,0],[1, 'hammer24',10,10,0,0,0],[1, 'hammer25',10,10,0,0,0],[1, 'hammer26',10,10,0,0,0],[1, 'hammer27',10,10,0,0,0],[1, 'hammer28',10,10,0,0,0],[1, 'hammer29',10,10,0,0,0],[1, 'hammer30',10,10,0,0,0]];
-		//[Card Identifier, 'Treasure Name', value]
-		treasureDeck = [[2, 'Gold Coins0', 100],[2, 'Gold Coins1', 100],[2, 'Gold Coins2', 100],[2, 'Gold Coins3', 100],[2, 'Gold Coins4', 100],[2, 'Gold Coins5', 100],[2, 'Gold Coins6', 100],[2, 'Gold Coins7', 100],[2, 'Gold Coins8', 100],[2, 'Gold Coins9', 100],[2, 'Gold Coins10', 100],[2, 'Gold Coins11', 100],[2, 'Gold Coins12', 100],[2, 'Gold Coins13', 100],[2, 'Gold Coins14', 100],[2, 'Gold Coins15', 100],[2, 'Gold Coins16', 100],[2, 'Gold Coins17', 100],[2, 'Gold Coins18', 100],[2, 'Gold Coins19', 100],[2, 'Gold Coins20', 100],[2, 'Gold Coins21', 100],[2, 'Gold Coins22', 100],[2, 'Gold Coins23', 100],[2, 'Gold Coins24', 100],[2, 'Gold Coins25', 100],[2, 'Gold Coins26', 100],[2, 'Gold Coins27', 100],[2, 'Gold Coins28', 100],[2, 'Gold Coins29', 100],[2, 'Gold Coins30', 100]];
+		//[Card Type Identifier, Unique Identifier 'Treasure Name', value]
+		treasureDeck = [[2, 'A0', 'Gold Coins0', 100],[2, 'A1', 'Gold Coins1', 100],[2, 'A2', 'Gold Coins2', 100],[2, 'A3', 'Gold Coins3', 100],[2, 'A4', 'Gold Coins4', 100],[2, 'A5', 'Gold Coins5', 100],[2, 'A6', 'Gold Coins6', 100],[2, 'A7', 'Gold Coins7', 100],[2, 'A8', 'Gold Coins8', 100],[2, 'A9', 'Gold Coins9', 100],[2, 'A10', 'Gold Coins10', 100],[2, 'A11', 'Gold Coins11', 100],[2, 'A12', 'Gold Coins12', 100],[2, 'A13', 'Gold Coins13', 100],[2,  'A14','Gold Coins14', 100],[2, 'A15', 'Gold Coins15', 100],[2, 'A16', 'Gold Coins16', 100],[2, 'A17', 'Gold Coins17', 100],[2, 'A18', 'Gold Coins18', 100],[2, 'A19', 'Gold Coins19', 100],[2, 'A20', 'Gold Coins20', 100],[2, 'A21', 'Gold Coins21', 100],[2, 'A22', 'Gold Coins22', 100],[2, 'A23', 'Gold Coins23', 100],[2, 'A24', 'Gold Coins24', 100],[2, 'A25', 'Gold Coins25', 100],[2, 'A26', 'Gold Coins26', 100],[2, 'A27', 'Gold Coins27', 100],[2, 'A28', 'Gold Coins28', 100],[2, 'A29', 'Gold Coins29', 100],[2, 'A30', 'Gold Coins30', 100]];
 		
 		drawSizemonster = monsterDeck.length -1;drawSizeTreasure = treasureDeck.length-1;drawSizeweapon = weaponDeck.length-1;
 		
@@ -308,17 +300,18 @@
 			console.log('cardPlace cardNum is: ' + cardNum.length);
 			if (cardNum < 10) div.id = "player" + idNum + 'Card0' + cardNum;
 			else div.id = "player" + idNum + 'Card' + cardNum;
+			div.value = allDraw[idNum][cardNum][1];
 			div.style.border = "1px solid black";
 			div.style.width = '20%';
 			div.style.height = '50px';
 			div.style.float = 'left';
 			div.style.textAlign = 'center';
-			div.onclick = function() {cardIdAct(this.id)};
+			div.onclick = function() {cardIdAct(this.id,this.value)};
 			div.innerHTML = x;
 			document.getElementById('player' + idNum+ 'Table').appendChild(div);
 		}
 		
-		function removeCard(id, cardNum) {
+		function removeCard(id, cardNum, identifier) {
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
 			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
@@ -329,11 +322,24 @@
 			}
 			toRemove = idName + 'Card' + cardNum;
 			console.log('toRemove is: ' + toRemove);
-			document.getElementById(toRemove).remove();
-			allDraw[idNum].splice(cardNum, 1);
+			//console.log('cardNum is: ' + cardNum + ' find found: ' + find);
+			//Splice is the Issue - need different reference that isn't cardNum
+			//Says Deck.includes is not a function...can't figure out why
+			console.log('identifier is: ' + identifier);
+			newIdent = '"' + identifier + '"';
+			console.log(newIdent);
+			for (i = 0; i<allDraw[idNum].length;i++) {
+				deck = allDraw[idNum][i];
+				a = deck.includes(newIdent);
+				if (a) {
+					console.log('found ' + identifier + ' in allDraw[' + idNum + '][' + i +' ]');
+					toSplice = i;
+				}
+			}
+			allDraw[idNum].splice(toSplice, 1);
 			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
 			console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
-			//Issues Splicin/Removing the Card changing others to the wrong Type aka treasure becomes monster
+			//UNSURE IF THIS IS NECESSARY -- Issues Splicing/Removing the Card changing others to the wrong Type aka treasure becomes monster
 			/*for (o=0;o<document.getElementById(idName + 'Table').children.length -1;o++) {
 				//x = allDraw[idNum][o];
 				cardNo = document.getElementById(idName + 'Table').children[o].id
@@ -350,21 +356,8 @@
 				else theId = 'player' + idNum + 'Card' + o;
 				cardId(theId);
 			}*/
-			//arrangeCards();
 		}
 		
-		function arrangeCards() {
-			for (i = 0;i<tableIndexRnd.length;i++) {
-				for (o=0;o<allDraw[i].length;o++) {
-					x = allDraw[i][o];
-					console.log('player' + i + ' has ' + x);
-					sendId = 'player' + i;
-					theId = 'player' + i + 'Card0' + o;
-					cardPlace(sendId, x, o);
-					cardId(theId);
-				}
-			}
-		}
 		
 		function deal() {
 			//Set Number of Players
@@ -435,7 +428,7 @@
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
 			cId = parseInt(id.substring(11,13));
-			//Cannot keep 2 digits in cId - maybe just switch to 10 and up
+
 			if (cId < 10) cId = ("0" + cId).slice(-2);
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
 			if (allDraw[pId][parseInt(cId)][0] == 0) {
@@ -453,7 +446,7 @@
 			}
 		}
 		
-		function cardIdAct(id) {
+		function cardIdAct(id,identifier) {
 			console.log('you clicked ' + id);
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
@@ -461,20 +454,23 @@
 			console.log('pId is: ' + pId + ' cId is: ' + cId);
 			if (allDraw[pId][parseInt(cId)][0] == 0) {
 				console.log('monster');
-				conosle.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				console.log('allDraw is: ' + allDraw[pId][cId]);
 				
 			} else if (allDraw[pId][parseInt(cId)][0] == 1) {
 				console.log('weapon');
-				conosle.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
+				console.log('allDraw is: ' + allDraw[pId][cId]);
 				
 			} else if (allDraw[pId][parseInt(cId)][0] == 2) {
 				console.log('treasure');
 				console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				cashIn(id);
+				console.log('allDraw is: ' + allDraw[pId][cId]);
+				cashIn(id,identifier);
 			}
 		}
 		
-		function cashIn(id) {
+		function cashIn(id,identifier) {
 			console.log('Welcome to cashIn ' + id);
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
@@ -487,8 +483,8 @@
 			goldIs = pGold + cGold;
 			console.log(goldIs);
 			updater(element, goldIs);
-			//Need to Remove Card and Rearrange others
-			removeCard(idName, cId);
+
+			removeCard(idName, cId,identifier);
 			playerStats[idNum][6] = goldIs;
 		}
 	</script>
