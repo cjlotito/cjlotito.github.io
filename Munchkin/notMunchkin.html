@@ -6,15 +6,6 @@
 			body {
 				background-color: #ffffff;	
 			}
-			table, th, td {
-				border: 1px solid black;
-				border-collapse: collapse;
-				text-align: center;
-				height: 20px;
-				width: 15%
-				display: inline-block;
-				font-size: 16px;
-			}
 			.button {
 				background-color: #4CAF50;
 				border: none;
@@ -202,7 +193,7 @@
 				
 				//tableIndex.push('<div id = "player' + i + 'Cell" class="players"><div class="stats" style="color:' +playerStats[i][7] + ';width:50%;float:left;border-right:1px solid black" id="player0Name"><h1><u>' +playerStats[i][0] + '</u></h1></div><div class="stats" id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:50%; float:right;"><h1>' + playerStats[i][6] + '</h1></div><div class="stats" id = "player' + i + 'Lvl" style="color:' +playerStats[i][7] + ';width:100%;border:1px solid black;">' + playerStats[i][1] + '</div><div class="stats" id = "player' + i + 'Class"><h1 style="color:' +playerStats[i][7] + ';">' + playerStats[i][2] + '</h1></div><div class="stats" id = "player' + i + 'Attack" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Attack Power:</p>' + playerStats[i][4] + '</div><div class="stats" id = "player' + i + 'Defense" style="color:' +playerStats[i][7] + ';border:1px solid black;"><p>Defense:</p>' + playerStats[i][3] + '</div><div class="stats" id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</div><div style="color:' +playerStats[i][7] + ';margin-left:33%;" id = "player' + i + 'Controls"><button class="button disabled" id = "player' + i + 'MonsterBtn" onclick="monster(id)" style="background-color:' +playerStats[i][7] + ';"disabled>Draw Monster</button></div></div>');
 				
-				tableIndex.push('<players class="cPlayers" id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p id = "player' + i + 'GoldNum" style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p id="player' + i + 'AttackNum" style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:15%;" ><button id = "player' + i + 'atkBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="atkFight(id)" disabled>Attack</button><button id = "player' + i + 'splBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="splFight(id)" disabled>Cast</button><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
+				tableIndex.push('<players class="cPlayers" id = "player' + i + 'Cell" ><div style="text-align:center;width:100%;float:left;"><stats  id = "player' + i + 'Name"style="color:' +playerStats[i][7] + ';width:49%;float:left;" ><p><u>' +playerStats[i][0] + '</u></p></stats><stats  id = "player' + i + 'Gold" style="color:' +playerStats[i][7] + ';width:49%; float:right;"><p style="display:inline-block;"> Gold&nbsp; </p><p id = "player' + i + 'GoldNum" style="display:inline-block;"> ' + playerStats[i][6] + '</p></stats><div style="text-align:center;width:100%;float:left;background-color:#7DFFEF;"><stats  id = "player' + i + 'Lvl" style="float:left;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;"> Level&nbsp; </p><p style="display:inline-block;"> ' + playerStats[i][1] + '</p></stats><stats   style="color:' +playerStats[i][7] + ';width:49%;"><p id = "player' + i + 'Class">' + playerStats[i][2] + '</p></stats></div></div><div style="text-align:center;width:100%;float:left;text-align:center;"><stats  id = "player' + i + 'Attack"     style="float:left;text-align:center;color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Attack:&nbsp; </p><p id="player' + i + 'AttackNum" style="display:inline-block;">' + playerStats[i][4] + '</p></stats><stats  id = "player' + i + 'Defense"    style="color:' +playerStats[i][7] + ';width:49%;"><p style="display:inline-block;">Defense:&nbsp; </p><p style="display:inline-block;">' + playerStats[i][3] + '</p></stats></div><stats  id = "player' + i + 'Weakness" hidden="">' + playerStats[i][5] + '</stats><playspace id = "player' + i + 'Table"></playspace><stats  id = "player' + i + 'Controls"   style="color:' +playerStats[i][7] + ';margin-left:15%;" ><button id = "player' + i + 'autoBtn" style="background-color:' +playerStats[i][7] + ';" class="button"  onclick="auto(id)" >Auto</button><button id = "player' + i + 'atkBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="atkFight(id)" disabled>Attack</button><button id = "player' + i + 'splBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="splFight(id)" disabled>Cast</button><button id = "player' + i + 'MonsterBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="monster(id)" disabled>Draw Monster</button><button id = "player' + i + 'WpnBtn" style="background-color:' +playerStats[i][7] + ';" class="button disabled"  onclick="shop(id)" disabled>Buy Weapon</button></stats></players>');
 				//player stats ['Name', level, class, armor, attack,weakness,gold]
 			}
 			allDraw.length = i;
@@ -228,19 +219,63 @@
 				document.getElementById("newTable").innerHTML = x + tableIndexRnd[i];
 			}
 			
-			a = document.getElementById('newTable').children.length;
-			
 			//Position Players
 			playerArrange();
 			closeDialog(0);
 			document.getElementById('arena').style.display = 'block';
 			list = ['MonsterBtn', 'WpnBtn', 'atkBtn', 'splBtn'];
 			disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), list);
-			//disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'WpnBtn');
-			//disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'atkBtn');
-			//disEnabler(document.getElementById("newTable").firstChild.id.substring(0,7), 'splBtn');
 			checkClass();
 			deal();
+		}
+		
+		function auto(id) {
+			console.log('this is auto');
+			idName = id.substring(0, 7);
+			idNum = id.substring(6,7);
+			cardsId = document.getElementById(idName + 'Table').children;
+			cards = [];
+			for (d = 0;d<cardsId.length;d++) {
+				str = cardsId[d].innerHTML;
+				res = str.split(",");
+				cards.push(res);
+			}
+			console.log('cards are: ' + cards);
+			for (d=0;d<cards.length;d++) {
+				cardIdAct(cardsId[d].id,cards[d][1]);
+				cards.splice(d,1);
+			}
+			while (playerStats[idNum][6] >=100) shop(id);
+			cardsId = document.getElementById(idName + 'Table').children;
+			cards = [];
+			console.log('cardsId is: ' + cardsId);
+			for (d = 0;d<cardsId.length;d++) {
+				str = cardsId[d].innerHTML;
+				res = str.split(",");
+				cards.push(res);
+			}
+			console.log('cards is: ' + cards);
+			for (d=0;d<cards.length;d++) {
+				console.log('d is: ' + d);
+				console.log('card is: ' + cards[d]);
+				theCard = cardsId[d].id;
+				console.log('theCard is: ' + theCard);
+				if (cards[d][0] == 1) {
+					aId = 0;
+					for (i = 1; i<allDraw[idNum].length;i++) {
+						if (allDraw[idNum][i].includes(cards[d][1])) {
+							aId = i;
+						}
+					}
+					console.log('found weapon');
+					equip(theCard, cards[d][1], aId);
+					//document.getElementById(theCard).remove();
+				}
+				//cardIdAct(theCard,cards[d][1]);
+				//document.getElementById(theCard).remove();
+				//cards.splice(d,1);
+			}
+
 		}
 		
 		function playerArrange() {
@@ -306,7 +341,6 @@
 			console.log('cardPlace cardNum is: ' + cardNum);
 			if (cardNum < 10) div.id = "player" + idNum + 'Card0' + cardNum;
 			else div.id = "player" + idNum + 'Card' + cardNum;
-			//Cannot Assign value using current method
 			div.value = allDraw[idNum][cardNum][1];
 			console.log('div.value is: ' + div.value);
 			div.style.border = "1px solid black";
@@ -326,7 +360,6 @@
 			console.log('diffCardPlace cardNum is: ' + cardNum);
 			if (cardNum < 10) div.id = "player" + idNum + 'Card0' + cardNum;
 			else div.id = "player" + idNum + 'Card' + cardNum;
-			//Cannot Assign value using current method
 			adLen = allDraw[idNum].length -1;
 			div.value = allDraw[idNum][adLen][1];
 			console.log('div.value is: ' + div.value);
@@ -370,12 +403,12 @@
 				monsterRwd = res[4];
 				if (playerAtk > monsterAtk) {
 					console.log('player wins!')
-					playerStats[1] = playerStats[1] + 1;
-					playerStats[6] = playerStats[6] + monsterRwd;
+					playerStats[idNum][1] = playerStats[idNum][1] + 1;
+					playerStats[idNum][6] = playerStats[idNum][6] + monsterRwd;
 					
 					element = idName + "GoldNum";
 					goldIs = monsterRwd;
-					updater(element, atkIs);
+					updater(element, goldIs);
 					
 					document.getElementById('arena').innerHTML = '';
 					
@@ -385,7 +418,9 @@
 						checks = a.includes(idName + 'Cell');
 						if (checks) {
 							console.log('found ' + idName + ' in newTable[' + c + ']');
+							//need to fix next to loop back to start - added if case, needs test
 							next = c + 1;
+							if (next > document.getElementById('newTable').children.length) next = 0;
 							console.log('next is: ' + next);
 							upNext = document.getElementById('newTable').children[next].id;
 							theNext = upNext.substring(0,7);
@@ -406,51 +441,27 @@
 		function removeCard(id, cardNum, identifier) {
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
-			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
-			console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
+			//console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
+			//console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
 			if (cardNum < 10) {
 				console.log('less thn 10');
 				cardNum = '0' + cardNum;
 			}
 			toRemove = idName + 'Card' + cardNum;
 			console.log('toRemove is: ' + toRemove);
-			//console.log('cardNum is: ' + cardNum + ' find found: ' + find);
-			//Splice is the Issue - need different reference that isn't cardNum
-			//Says Deck.includes is not a function...can't figure out why
 			//Seems fixed....for now...other issues elsewhere
 			console.log('identifier is: ' + identifier);
-			newIdent = '"' + identifier + '"';
-			console.log('newIdent is: ' + newIdent);
 			for (i = 1; i<allDraw[idNum].length;i++) {
-				deck = allDraw[idNum][i];
-				console.log('deck is: ' + deck);
 				a = allDraw[idNum][i].includes(identifier);
 				if (a) {
 					console.log('found ' + identifier + ' in allDraw[' + idNum + '][' + i +']');
-					toSplice = i;
-					document.getElementById(toRemove).remove();
+					toSplice = i;	
 				}
 			}
+			document.getElementById(toRemove).remove();
 			allDraw[idNum].splice(toSplice, 1);
-			console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
-			console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
-			//UNSURE IF THIS IS NECESSARY -- Issues Splicing/Removing the Card changing others to the wrong Type aka treasure becomes monster
-			/*for (o=0;o<document.getElementById(idName + 'Table').children.length -1;o++) {
-				//x = allDraw[idNum][o];
-				cardNo = document.getElementById(idName + 'Table').children[o].id
-				cardNo2 = parseInt(cardNo.substring(11,13));
-				console.log('cardNo is: ' + cardNo + ' cardNo2 is: ' + cardNo2);
-				if (cardNo2 < 10) theId = 'player' + idNum + 'Card0' + cardNo2;
-				else theId = 'player' + idNum + 'Card' + cardNo2;
-				console.log('theId is: ' + theId);
-				cardId(theId);
-			}*/
-			/*for (o=0;o<allDraw[idNum].length;o++) {
-				x = allDraw[idNum][o];
-				if (o < 10) theId = 'player' + idNum + 'Card0' + o;
-				else theId = 'player' + idNum + 'Card' + o;
-				cardId(theId);
-			}*/
+			//console.log('Current children: ' + document.getElementById(idName + 'Table').children.length);
+			//console.log('Current allDraw[' + idNum + ']: ' + allDraw[idNum].length);
 		}
 		
 		
@@ -459,7 +470,7 @@
 			playersCount = tableIndexRnd.length;
 			console.log('Number of players is : ' + playersCount);
 			//Deal 4 cards
-			for (i = 0;i<tableIndexRnd.length;i++) {
+			for (i = 0;i<playersCount;i++) {
 				for (o = 0; o < 4; o++) {						
 					//Draw Card from the Deck
 					hand = allDraw[i];
@@ -475,7 +486,7 @@
 				}
 			}
 			//Place Card and Add Color
-			for (i = 0;i<tableIndexRnd.length;i++) {
+			for (i = 0;i<playersCount;i++) {
 				for (o=1;o<allDraw[i].length;o++) {
 					x = allDraw[i][o];
 					console.log('player' + i + ' has ' + x);
@@ -549,10 +560,10 @@
 			cAtk = parseInt(allDraw[idNum][aId][3]);
 			atkIs = pAtk + cAtk;
 			console.log('atkis is: ' + atkIs);
-			updater(element, atkIs);
-			
-			removeCard(idName, cId,identifier);
 			playerStats[idNum][4] = atkIs;
+			updater(element, atkIs);
+			removeCard(idName, cId,identifier);
+			//document.getElementById(id).remove();
 		}
 		
 		function cardId(id, identifier) {
@@ -589,8 +600,6 @@
 			console.log('you clicked ' + id);
 			idName = id.substring(0, 7);
 			pId = id.substring(6,7);
-			cId = parseInt(id.substring(11,13));
-			console.log('pId is: ' + pId + ' cId is: ' + cId);
 			aId = 0;
 			for (i = 1; i<allDraw[pId].length;i++) {
 				if (allDraw[pId][i].includes(identifier)) {
@@ -600,18 +609,11 @@
 			console.log('aId is: ' + aId);
 			if (allDraw[pId][aId][0] == 0) {
 				console.log('monster');
-				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				//console.log('allDraw is: ' + allDraw[pId][cId]);
-				
 			} else if (allDraw[pId][aId][0] == 1) {
 				console.log('weapon');
-				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				//console.log('allDraw is: ' + allDraw[pId][cId]);
 				equip(id,identifier, aId);
 			} else if (allDraw[pId][aId][0] == 2) {
 				console.log('treasure');
-				//console.log('index of card is: ' + allDraw[pId].indexOf('player' + pId + 'Card' + cId));
-				//console.log('allDraw is: ' + allDraw[pId][cId]);
 				cashIn(id,identifier, aId);
 			}
 		}
@@ -620,8 +622,7 @@
 			console.log('Welcome to cashIn ' + id);
 			idName = id.substring(0, 7);
 			idNum = id.substring(6,7);
-			//cId = parseInt(id.substring(11,13));
-			//console.log('cId is: ' + cId);
+			cId = parseInt(id.substring(11,13));
 			element = idName + 'GoldNum';
 			console.log(element);
 			pGold = parseInt(playerStats[idNum][6]);
@@ -629,9 +630,9 @@
 			goldIs = pGold + cGold;
 			console.log(goldIs);
 			updater(element, goldIs);
-
 			removeCard(idName, cId,identifier);
 			playerStats[idNum][6] = goldIs;
+			//document.getElementById(id).remove();
 		}
 	</script>
 	</body>
