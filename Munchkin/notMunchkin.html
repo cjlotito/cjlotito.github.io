@@ -255,6 +255,8 @@
 				cards.push(res);
 			}
 			console.log('cards is: ' + cards);
+			toEquip = [];
+			toRemoveArr = [];
 			for (d=0;d<cards.length;d++) {
 				console.log('d is: ' + d);
 				console.log('card is: ' + cards[d]);
@@ -268,14 +270,27 @@
 						}
 					}
 					console.log('found weapon');
-					equip(theCard, cards[d][1], aId);
+					toEquip.push(cards[d]);
+					toRemoveArr.push(cardsId[d].id);
+					//equip(theCard, cards[d][1], aId);
 					//document.getElementById(theCard).remove();
 				}
 				//cardIdAct(theCard,cards[d][1]);
 				//document.getElementById(theCard).remove();
 				//cards.splice(d,1);
 			}
-
+			console.log(toEquip);
+			for (d=0;d<toEquip.length;d++) {
+				aId = 0;
+				for (i = 1; i<allDraw[idNum].length;i++) {
+					if (allDraw[idNum][i].includes(cards[d][1])) {
+						aId = i;
+					}
+				}
+				equip(toRemoveArr[d], toEquip[d][1], aId);
+				console.log('toRemoveArr is: ' + toRemoveArr[d]);
+				//document.getElementById(toRemoveArr[d]).remove();
+			}
 		}
 		
 		function playerArrange() {
