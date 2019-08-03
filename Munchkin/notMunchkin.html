@@ -88,7 +88,7 @@
 			<p id="card" style ="text-align:center" ></p>
 			<div id = 'arena' class='arena'></div>
 				<div id="newTable" style="width:100%"><div class='new-game' style='display:block;z-index:1'><button class="button" id = "players" onclick="openDialog(0, id)">Set Players</button></div></div>
-				<div id='dev' onclick="devShow(id)" style="width:100%;height:100px;display:inline-block;"><players class="cPlayers" id="controls" style="width:100%;visibility:hidden;border: 1px solid black"><button id = "groupAutoBtn" class="button"  onclick="gAuto()">Group Auto</button></players></div>
+				<div id='dev' onclick="devShow(id)" style="width:100%;height:100px;display:inline-block;"><players class="cPlayers" id="controls" style="width:100%;visibility:hidden;border: 1px solid black"><button id = "groupAutoBtn" class="button"  onclick="gAuto()">Group Auto</button><button id="debugger" onclick="debug()">Debug</button></players></div>
 		</div>
 	<script>
 		window.addEventListener("resize", playerArrange);
@@ -118,6 +118,11 @@
 						if (document.getElementById('controls').style.visibility == "hidden") controls.style.visibility="visible";
 						else document.getElementById('controls').style.visibility = "hidden";	
 			}
+		}
+		
+		function debug() {
+			if (debug) debug = false;
+			else debug = true;
 		}
 			
 		function openDialog(dCase, id, which) {
