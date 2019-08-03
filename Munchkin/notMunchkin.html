@@ -111,9 +111,12 @@
 		}
 		function devShow(id) {
 			console.log('clicked ' + id);
+			devStat = document.getElementById('controls').style.visibility;
+			console.log(devStat);
 			if (id =='dev') {
-				if (document.getElementById('controls').style.visibility  = 'hidden') document.getElementById('controls').style.visibility  = 'visible';
-				else document.getElementById('controls').style.visibility  = 'hidden';
+				console.log(document.getElementById('controls').style.visibility);
+						if (document.getElementById('controls').style.visibility == "hidden") controls.style="";
+						else document.getElementById('controls').style = "visibility:hidden";	
 			}
 		}
 			
